@@ -18,7 +18,6 @@ function App() {
       const jsonData = await response.json();
 
       setAPIData(jsonData);
-
       setFigures(jsonData.Global);
     }
     getData();

@@ -12,7 +12,7 @@ const Summary = ({ figures }) => {
   `
 
   const liStyle = css `
-    margin-top: 10px;
+    margin-bottom: 10px;
   `
 
   return (<ul css={ulStyle}>

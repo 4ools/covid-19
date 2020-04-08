@@ -13,10 +13,18 @@ function App() {
     padding: 10px;
     display: flex;
     flex-direction: column;
+
+    @media (min-width: 600px) {
+      flex-direction: row;
+      justify-content: space-around;
+    }
   `;
 
   const countryPickerStyle = css `
     margin-top: 20px;
+    @media (min-width: 600px) {
+      margin-top: 0px;
+    }
   `
 
   // response from the API request for all data

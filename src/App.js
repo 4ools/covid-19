@@ -11,6 +11,8 @@ function App() {
 
   const bodyStyle = css `
     padding: 10px;
+    display: flex;
+    flex-direction: column;
   `;
 
   const countryPickerStyle = css `

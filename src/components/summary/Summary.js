@@ -18,7 +18,7 @@ const Summary = ({ figures }) => {
   return (<ul css={ulStyle}>
     {Object.keys(figures).map((key, index) => {
       return (
-        <li key= {figures[key]} css={liStyle}>
+        <li key= {key} css={liStyle}>
           {key}: {figures[key]}
         </li>
       );

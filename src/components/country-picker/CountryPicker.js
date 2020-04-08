@@ -5,7 +5,7 @@ import { jsx, css } from '@emotion/core'
 const CountryPicker = ({ componentStyle, pickCountry, countries }) => {
   const currentSelection = useRef({});
   const formStyle = css `${componentStyle}`
-  
+
   return (
     <form css={formStyle}>
       <label>

@@ -41,6 +41,9 @@ function App() {
       const response = await fetch("https://api.covid19api.com/summary");
       const jsonData = await response.json();
 
+      // Append Global to the list of countries as the first item of the countries array
+      const newData = {...jsonData.Global, Country: "Global", "Slug": "global"}
+      jsonData.Countries.unshift(newData)
       setAPIData(jsonData);
       setFigures(jsonData.Global);
     }

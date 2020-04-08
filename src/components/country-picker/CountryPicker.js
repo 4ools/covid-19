@@ -1,10 +1,13 @@
 import React, { useRef } from "react";
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core'
 
-const CountryPicker = ({ pickCountry, countries }) => {
+const CountryPicker = ({ componentStyle, pickCountry, countries }) => {
   const currentSelection = useRef({});
-
+  const formStyle = css `${componentStyle}`
+  
   return (
-    <form>
+    <form css={formStyle}>
       <label>
         Select country:
         <select

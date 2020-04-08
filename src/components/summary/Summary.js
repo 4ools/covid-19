@@ -3,14 +3,22 @@ import React from "react";
 import { jsx, css } from '@emotion/core'
 
 const Summary = ({ figures }) => {
-  const style = css`
-    background-color: pink;
+  const ulStyle = css`
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0; /* To remove default bottom margin */ 
+    padding: 0; /* To remove default left padding */
   `
-  
-  return (<ul css={style}>
+
+  const liStyle = css `
+    margin-top: 10px;
+  `
+
+  return (<ul css={ulStyle}>
     {Object.keys(figures).map((key, index) => {
       return (
-        <li>
+        <li css={liStyle}>
           {key}: {figures[key]}
         </li>
       );

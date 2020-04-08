@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Summary from "./components/summary/Summary";
 import CountryPicker from "./components/country-picker/CountryPicker";
-import "./App.css";
+import NavBar from "./components/nav-bar/navBar";
 
+import "./App.css";
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core'
 
 function App() {
+
+  const bodyStyle = css `
+    padding: 10px;
+  `;
+
+  const countryPickerStyle = css `
+    margin-top: 20px;
+  `
+
   // response from the API request for all data
   const [APIData, setAPIData] = useState({
     Global: {},
@@ -51,8 +63,12 @@ function App() {
 
   return (
     <main>
-      <Summary figures={figures} />
-      <CountryPicker pickCountry={pickCountry} countries={APIData.Countries} />
+
+      <NavBar />
+      <div css={bodyStyle}>
+        <Summary figures={figures} />
+        <CountryPicker componentStyle={countryPickerStyle} pickCountry={pickCountry} countries={APIData.Countries} />
+      </div>
     </main>
   );
 }

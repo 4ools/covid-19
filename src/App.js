@@ -3,6 +3,7 @@ import Summary from "./components/summary/Summary";
 import CountryPicker from "./components/country-picker/CountryPicker";
 import "./App.css";
 
+
 function App() {
   // response from the API request for all data
   const [APIData, setAPIData] = useState({
@@ -11,6 +12,7 @@ function App() {
   });
   // which figures do we currently show
   const [figures, setFigures] = useState({});
+
 
   useEffect(() => {
     async function getData() {

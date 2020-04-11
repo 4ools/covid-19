@@ -2,7 +2,7 @@
 import { jsx, css } from '@emotion/core';
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import { cssStyles } from '../../utils/keyColors';
+import cssStyles from '../../utils/keyColors';
 
 const Summary = ({ figures, date }) => {
   const colorStyles = cssStyles();

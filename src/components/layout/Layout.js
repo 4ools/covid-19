@@ -7,11 +7,7 @@ export default ({ children }) => {
   return (
     <main>
       <CssBaseline />
-      <Container maxWidth="md">
-        <Typography component="div" style={{ height: '100vh' }}>
-          {children}
-        </Typography>
-      </Container>
+      <Container maxWidth="md">{children}</Container>
     </main>
   );
 };

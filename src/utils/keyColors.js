@@ -1,48 +1,24 @@
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-
-// const theme = useTheme();
-// const colors = {
-//   NewConfirmed: {
-//     color: theme.palette.primary.main,
-//   },
-//   TotalConfirmed: {
-//     color: theme.palette.primary.main,
-//   },
-//   NewDeaths: {
-//     color: theme.palette.error.main,
-//   },
-//   TotalDeaths: {
-//     color: theme.palette.error.main,
-//   },
-//   NewRecovered: {
-//     color: theme.palette.success.main,
-//   },
-//   TotalRecovered: {
-//     color: theme.palette.success.main,
-//   },
-// };
-
-const colors = {};
+import { makeStyles } from '@material-ui/core/styles';
 
 const cssStyles = makeStyles((theme) => ({
   NewConfirmed: {
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.light,
   },
   TotalConfirmed: {
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.dark,
   },
   NewDeaths: {
-    color: theme.palette.error.main,
+    color: theme.palette.error.light,
   },
   TotalDeaths: {
-    color: theme.palette.error.main,
+    color: theme.palette.error.dark,
   },
   NewRecovered: {
-    color: theme.palette.success.main,
+    color: theme.palette.success.light,
   },
   TotalRecovered: {
-    color: theme.palette.success.main,
+    color: theme.palette.success.dark,
   },
 }));
 
-export { cssStyles, colors };
+export default cssStyles;

@@ -2,31 +2,10 @@
 import { jsx, css } from '@emotion/core';
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  NewConfirmed: {
-    color: theme.palette.primary.main,
-  },
-  TotalConfirmed: {
-    color: theme.palette.primary.main,
-  },
-  NewDeaths: {
-    color: theme.palette.error.main,
-  },
-  TotalDeaths: {
-    color: theme.palette.error.main,
-  },
-  NewRecovered: {
-    color: theme.palette.success.main,
-  },
-  TotalRecovered: {
-    color: theme.palette.success.main,
-  },
-}));
+import { cssStyles } from '../../utils/keyColors';
 
 const Summary = ({ figures, date }) => {
-  const classes = useStyles();
+  const colorStyles = cssStyles();
 
   const ulStyle = css`
     list-style-type: none;
@@ -49,7 +28,7 @@ const Summary = ({ figures, date }) => {
             <li css={liStyle} key={key}>
               <Typography variant="h5">
                 {key.replace(/([A-Z])/g, ' $1')}:{' '}
-                <span className={classes[key]}>
+                <span className={colorStyles[key]}>
                   {typeof figures[key] !== 'number'
                     ? figures[key]
                     : new Intl.NumberFormat('en-US').format(figures[key])}

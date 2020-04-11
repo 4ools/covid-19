@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
+
 import Summary from './components/summary/Summary';
+import SummaryGraph from './components/summary-graph/SummaryGraph';
 import CountryPicker from './components/country-picker/CountryPicker';
 import NavBar from './components/nav-bar/navBar';
 import Layout from './components/layout/Layout';
 import jsonData from './data/mockSummary.json';
+// import { colors } from './utils/keyColors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +30,11 @@ function App() {
   // which figures do we currently show
   const [figures, setFigures] = useState({});
 
+  const theme = useTheme();
+
+  // chart figures for the bar chart
+  const [summaryChartFigures, setSummaryChartFigures] = useState({});
+
   const [date, setDate] = useState(null);
 
   const classes = useStyles();
@@ -40,9 +49,66 @@ function App() {
       setAPIData(processedAPIData);
       setFigures(processedAPIData.Global);
       setDate(Date(processedAPIData.Date));
+
+      const countriesDataForSummaryFigures = sortDataForSummaryGraph(
+        processedAPIData.Countries,
+      );
+      setSummaryChartFigures(countriesDataForSummaryFigures);
     }
     getData();
   }, []);
+
+  function sortDataForSummaryGraph(data) {
+    const colors = {
+      NewConfirmed: {
+        color: theme.palette.primary.main,
+      },
+      TotalConfirmed: {
+        color: theme.palette.primary.main,
+      },
+      NewDeaths: {
+        color: theme.palette.error.main,
+      },
+      TotalDeaths: {
+        color: theme.palette.error.main,
+      },
+      NewRecovered: {
+        color: theme.palette.success.main,
+      },
+      TotalRecovered: {
+        color: theme.palette.success.main,
+      },
+    };
+    return data
+      .map(
+        ({
+          CountryCode,
+          NewConfirmed,
+          TotalConfirmed,
+          NewDeaths,
+          TotalDeaths,
+          NewRecovered,
+          TotalRecovered,
+        }) => {
+          return {
+            CountryCode,
+            NewConfirmed,
+            NewConfirmedColor: colors.NewConfirmed.color,
+            TotalConfirmed,
+            TotalConfirmedColor: colors.TotalConfirmed.color,
+            NewDeaths,
+            NewDeathsColor: colors.NewDeaths.color,
+            TotalDeaths,
+            TotalDeathsColor: colors.TotalDeaths.color,
+            NewRecovered,
+            NewRecoveredColor: colors.NewRecovered.color,
+            TotalRecovered,
+            TotalRecoveredColor: colors.TotalRecovered.color,
+          };
+        },
+      )
+      .splice(1, 6);
+  }
 
   function addGlobalToCountry(apiResponse) {
     const newData = {
@@ -90,17 +156,35 @@ function App() {
       <Layout>
         <Grid container spacing={3}>
           <Grid item xs={12} />
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <CountryPicker
+              <Grid container spacing={3}>
+                <Grid item xs={8}>
+                  <Summary figures={figures} date={date} />
+                </Grid>
+                <Grid item xs={4}>
+                  <CountryPicker
+                    pickCountry={pickCountry}
+                    countries={APIData.Countries}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+          {/* Line graph */}
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              <Typography variant="h6">Summary graph</Typography>
+              <SummaryGraph figures={summaryChartFigures} />
+              {/* <CountryPicker
                 pickCountry={pickCountry}
                 countries={APIData.Countries}
               />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Paper className={classes.paper}>
-              <Summary figures={figures} date={date} />
+
+              <CountryPicker
+                pickCountry={pickCountry}
+                countries={APIData.Countries}
+              /> */}
             </Paper>
           </Grid>
         </Grid>

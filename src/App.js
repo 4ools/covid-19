@@ -73,15 +73,15 @@ function App() {
           <Grid item xs={12} />
           <Grid item xs={12} md={6}>
             <Paper className={classes.paper}>
-              <Summary figures={figures} />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Paper className={classes.paper}>
               <CountryPicker
                 pickCountry={pickCountry}
                 countries={APIData.Countries}
               />
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Paper className={classes.paper}>
+              <Summary figures={figures} />
             </Paper>
           </Grid>
         </Grid>

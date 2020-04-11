@@ -8,7 +8,7 @@ const CountryPicker = ({ pickCountry, countries }) => {
       id="countryPicker"
       options={countries}
       getOptionLabel={(option) => option.Country}
-      style={{ width: 300 }}
+      style={{ width: '100%' }}
       renderInput={(params) => (
         <TextField {...params} label="Pick Country" variant="outlined" />
       )}

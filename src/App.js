@@ -9,7 +9,7 @@ import CountryPicker from './components/country-picker/CountryPicker';
 import NavBar from './components/nav-bar/navBar';
 import Layout from './components/layout/Layout';
 import Footer from './components/footer/Footer';
-import jsonData from './data/mockSummary.json';
+// import jsonData from './data/mockSummary.json';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,8 +38,8 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      // const response = await fetch('https://api.covid19api.com/summary');
-      // const jsonData = await response.json();
+      const response = await fetch('https://api.covid19api.com/summary');
+      const jsonData = await response.json();
 
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(jsonData);

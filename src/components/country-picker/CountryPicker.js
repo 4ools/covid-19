@@ -1,36 +1,19 @@
-/** @jsx jsx */
-import { useRef } from 'react';
-import { jsx, css } from '@emotion/core';
+import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
-const CountryPicker = ({ componentStyle, pickCountry, countries }) => {
-  const currentSelection = useRef({});
-  const formStyle = css`
-    ${componentStyle}
-  `;
-
+const CountryPicker = ({ pickCountry, countries }) => {
   return (
-    <form css={formStyle}>
-      <label htmlFor="countrySelect">
-        Select country:
-        <select
-          id="countrySelect"
-          value={currentSelection.current}
-          onChange={(e) => {
-            currentSelection.current = e.target.value;
-            pickCountry(currentSelection.current);
-          }}
-        >
-          {countries.map(
-            (country) =>
-              country.Country && (
-                <option key={country.Slug} value={country.Slug}>
-                  {country.Country}
-                </option>
-              ),
-          )}
-        </select>
-      </label>
-    </form>
+    <Autocomplete
+      id="countryPicker"
+      options={countries}
+      getOptionLabel={(option) => option.Country}
+      style={{ width: 300 }}
+      renderInput={(params) => (
+        <TextField {...params} label="Pick Country" variant="outlined" />
+      )}
+      onChange={(_, values) => pickCountry(values ? values.Slug : 'global')}
+    />
   );
 };
 

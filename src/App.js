@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Summary from './components/summary/Summary';
 import CountryPicker from './components/country-picker/CountryPicker';
 import NavBar from './components/nav-bar/navBar';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './App.css';
 
@@ -17,13 +16,6 @@ function App() {
     @media (min-width: 600px) {
       flex-direction: row;
       justify-content: space-around;
-    }
-  `;
-
-  const countryPickerStyle = css`
-    margin-top: 20px;
-    @media (min-width: 600px) {
-      margin-top: 0px;
     }
   `;
 
@@ -79,7 +71,6 @@ function App() {
       <div css={bodyStyle}>
         <Summary figures={figures} />
         <CountryPicker
-          componentStyle={countryPickerStyle}
           pickCountry={pickCountry}
           countries={APIData.Countries}
         />

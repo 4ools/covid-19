@@ -25,6 +25,8 @@ function App() {
   // which figures do we currently show
   const [figures, setFigures] = useState({});
 
+  const [date, setDate] = useState(null);
+
   const classes = useStyles();
 
   useEffect(() => {
@@ -54,11 +56,11 @@ function App() {
         ],
         Date: '2020-03-16T21:10:53.86852587Z',
       };
-
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(jsonData);
       setAPIData(processedAPIData);
       setFigures(processedAPIData.Global);
+      setDate(Date(processedAPIData.Date));
     }
     getData();
   }, []);
@@ -119,7 +121,7 @@ function App() {
           </Grid>
           <Grid item xs={12} md={6}>
             <Paper className={classes.paper}>
-              <Summary figures={figures} />
+              <Summary figures={figures} date={date} />
             </Paper>
           </Grid>
         </Grid>

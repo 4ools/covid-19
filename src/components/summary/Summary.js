@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Summary = ({ figures }) => {
+const Summary = ({ figures, date }) => {
   const classes = useStyles();
 
   const ulStyle = css`
@@ -59,6 +59,7 @@ const Summary = ({ figures }) => {
           );
         })}
       </ul>
+      <Typography variant="caption"> {date} </Typography>
     </React.Fragment>
   );
 };

@@ -48,7 +48,7 @@ const Summary = ({ figures, date }) => {
           return (
             <li css={liStyle} key={key}>
               <Typography variant="h5">
-                {key}:{' '}
+                {key.replace(/([A-Z])/g, ' $1')}:{' '}
                 <span className={classes[key]}>
                   {typeof figures[key] !== 'number'
                     ? figures[key]

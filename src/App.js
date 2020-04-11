@@ -36,6 +36,8 @@ function App() {
       const processedAPIData = addGlobalToCountry(jsonData);
       setAPIData(processedAPIData);
       setFigures(processedAPIData.Global);
+      console.log(processedAPIData);
+      console.log(jsonData);
     }
     getData();
   }, []);
@@ -47,8 +49,7 @@ function App() {
       ...apiResponse.Global,
     };
 
-    const updatedData = {};
-    Object.assign(updatedData, apiResponse);
+    const updatedData = { ...apiResponse };
     updatedData.Countries.unshift(newData);
     updatedData.Global = newData;
     delete updatedData.Global.Slug;

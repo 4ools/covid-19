@@ -29,15 +29,36 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      const response = await fetch('https://api.covid19api.com/summary');
-      const jsonData = await response.json();
+      // const response = await fetch('https://api.covid19api.com/summary');
+      // const jsonData = await response.json();
+      const jsonData = {
+        Global: {
+          NewConfirmed: 5,
+          TotalConfirmed: 16,
+          NewDeaths: 0,
+          TotalDeaths: 0,
+          NewRecovered: 0,
+          TotalRecovered: 0,
+        },
+        Countries: [
+          {
+            Country: 'Afghanistan',
+            Slug: 'afghanistan',
+            NewConfirmed: 500,
+            TotalConfirmed: 160123200,
+            NewDeaths: 12,
+            TotalDeaths: 34343,
+            NewRecovered: 23,
+            TotalRecovered: 12312312,
+          },
+        ],
+        Date: '2020-03-16T21:10:53.86852587Z',
+      };
 
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(jsonData);
       setAPIData(processedAPIData);
       setFigures(processedAPIData.Global);
-      console.log(processedAPIData);
-      console.log(jsonData);
     }
     getData();
   }, []);

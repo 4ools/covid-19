@@ -48,7 +48,12 @@ const Summary = ({ figures }) => {
           return (
             <li css={liStyle} key={key}>
               <Typography variant="h5">
-                {key}: <span className={classes[key]}>{figures[key]}</span>
+                {key}:{' '}
+                <span className={classes[key]}>
+                  {typeof figures[key] !== 'number'
+                    ? figures[key]
+                    : new Intl.NumberFormat('en-US').format(figures[key])}
+                </span>
               </Typography>
             </li>
           );

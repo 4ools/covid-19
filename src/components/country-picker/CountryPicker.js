@@ -12,7 +12,7 @@ const CountryPicker = ({ pickCountry, countries }) => {
       renderInput={(params) => (
         <TextField {...params} label="Pick Country" variant="outlined" />
       )}
-      onChange={(_, values) => pickCountry(values.Slug)}
+      onChange={(_, values) => pickCountry(values ? values.Slug : 'global')}
     />
   );
 };

@@ -8,7 +8,7 @@ const SummaryGraph = ({ figures }) => {
 
   const keys = figures[0] ? Object.keys(figures[0]) : [];
 
-  // colours for the chart
+  // colours for the char
   const colors = {
     NewConfirmed: theme.palette.primary.light,
     TotalConfirmed: theme.palette.primary.dark,
@@ -19,7 +19,7 @@ const SummaryGraph = ({ figures }) => {
   };
 
   const getColor = (bar) => colors[bar.id];
-  return (
+  return figures[0] ? (
     <>
       <Typography variant="h5">Top 5 Countries</Typography>
       <div style={{ height: 500 }}>
@@ -82,6 +82,8 @@ const SummaryGraph = ({ figures }) => {
         />
       </div>
     </>
+  ) : (
+    <div>Loading</div>
   );
 };
 

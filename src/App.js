@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Summary from "./components/summary/Summary";
 import CountryPicker from "./components/country-picker/CountryPicker";
 import NavBar from "./components/nav-bar/navBar";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import "./App.css";
 /** @jsx jsx */

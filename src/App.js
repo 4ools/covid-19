@@ -1,24 +1,22 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 import Summary from './components/summary/Summary';
 import CountryPicker from './components/country-picker/CountryPicker';
 import NavBar from './components/nav-bar/navBar';
+import Layout from './components/layout/Layout';
 
-import './App.css';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+  },
+}));
 
 function App() {
-  const bodyStyle = css`
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-
-    @media (min-width: 600px) {
-      flex-direction: row;
-      justify-content: space-around;
-    }
-  `;
-
   // response from the API request for all data
   const [APIData, setAPIData] = useState({
     Global: {},
@@ -26,6 +24,8 @@ function App() {
   });
   // which figures do we currently show
   const [figures, setFigures] = useState({});
+
+  const classes = useStyles();
 
   useEffect(() => {
     async function getData() {
@@ -66,16 +66,27 @@ function App() {
   }
 
   return (
-    <main>
+    <>
       <NavBar />
-      <div css={bodyStyle}>
-        <Summary figures={figures} />
-        <CountryPicker
-          pickCountry={pickCountry}
-          countries={APIData.Countries}
-        />
-      </div>
-    </main>
+      <Layout>
+        <Grid container spacing={3}>
+          <Grid item xs={12} />
+          <Grid item xs={12} md={6}>
+            <Paper className={classes.paper}>
+              <Summary figures={figures} />
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Paper className={classes.paper}>
+              <CountryPicker
+                pickCountry={pickCountry}
+                countries={APIData.Countries}
+              />
+            </Paper>
+          </Grid>
+        </Grid>
+      </Layout>
+    </>
   );
 }
 

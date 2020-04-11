@@ -3,12 +3,12 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-// import moment from 'moment';
 import Summary from './components/summary/Summary';
 import SummaryGraph from './components/summary-graph/SummaryGraph';
 import CountryPicker from './components/country-picker/CountryPicker';
 import NavBar from './components/nav-bar/navBar';
 import Layout from './components/layout/Layout';
+import Footer from './components/footer/Footer';
 import jsonData from './data/mockSummary.json';
 
 const useStyles = makeStyles((theme) => ({
@@ -157,10 +157,15 @@ function App() {
               </Grid>
             </Paper>
           </Grid>
-          {/* Line graph */}
+          {/* Summary graph for all the top 5 countries */}
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <SummaryGraph figures={summaryChartFigures} />
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              <Footer />
             </Paper>
           </Grid>
         </Grid>

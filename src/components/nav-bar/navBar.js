@@ -1,20 +1,15 @@
 import React from 'react';
-import Navbar from 'react-bootstrap/Navbar';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 const NavBar = () => {
   return (
-    <Navbar bg="dark" variant="dark">
-      <Navbar.Brand href="#home">
-        <img
-          alt=""
-          src="/logo.svg"
-          width="30"
-          height="30"
-          className="d-inline-block align-top"
-        />{' '}
-        COVID-19
-      </Navbar.Brand>
-    </Navbar>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6">COVID-19</Typography>
+      </Toolbar>
+    </AppBar>
   );
 };
 export default NavBar;

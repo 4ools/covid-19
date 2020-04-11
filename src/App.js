@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
-import Summary from "./components/summary/Summary";
-import CountryPicker from "./components/country-picker/CountryPicker";
-import NavBar from "./components/nav-bar/navBar";
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
+import { useState, useEffect } from 'react';
+import Summary from './components/summary/Summary';
+import CountryPicker from './components/country-picker/CountryPicker';
+import NavBar from './components/nav-bar/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import "./App.css";
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core'
+import './App.css';
 
 function App() {
-
-  const bodyStyle = css `
+  const bodyStyle = css`
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -21,12 +20,12 @@ function App() {
     }
   `;
 
-  const countryPickerStyle = css `
+  const countryPickerStyle = css`
     margin-top: 20px;
     @media (min-width: 600px) {
       margin-top: 0px;
     }
-  `
+  `;
 
   // response from the API request for all data
   const [APIData, setAPIData] = useState({
@@ -36,15 +35,14 @@ function App() {
   // which figures do we currently show
   const [figures, setFigures] = useState({});
 
-
   useEffect(() => {
     async function getData() {
-      const response = await fetch("https://api.covid19api.com/summary");
+      const response = await fetch('https://api.covid19api.com/summary');
       const jsonData = await response.json();
 
       // Append Global to the list of countries as the first item of the countries array
-      const newData = {...jsonData.Global, Country: "Global", "Slug": "global"}
-      jsonData.Countries.unshift(newData)
+      const newData = { ...jsonData.Global, Country: 'Global', Slug: 'global' };
+      jsonData.Countries.unshift(newData);
       setAPIData(jsonData);
       setFigures(jsonData.Global);
     }
@@ -77,11 +75,14 @@ function App() {
 
   return (
     <main>
-
       <NavBar />
       <div css={bodyStyle}>
         <Summary figures={figures} />
-        <CountryPicker componentStyle={countryPickerStyle} pickCountry={pickCountry} countries={APIData.Countries} />
+        <CountryPicker
+          componentStyle={countryPickerStyle}
+          pickCountry={pickCountry}
+          countries={APIData.Countries}
+        />
       </div>
     </main>
   );

@@ -1,16 +1,19 @@
-import React, { useRef } from "react";
 /** @jsx jsx */
-import { jsx, css } from '@emotion/core'
+import { useRef } from 'react';
+import { jsx, css } from '@emotion/core';
 
 const CountryPicker = ({ componentStyle, pickCountry, countries }) => {
   const currentSelection = useRef({});
-  const formStyle = css `${componentStyle}`
+  const formStyle = css`
+    ${componentStyle}
+  `;
 
   return (
     <form css={formStyle}>
-      <label>
+      <label htmlFor="countrySelect">
         Select country:
         <select
+          id="countrySelect"
           value={currentSelection.current}
           onChange={(e) => {
             currentSelection.current = e.target.value;
@@ -18,12 +21,12 @@ const CountryPicker = ({ componentStyle, pickCountry, countries }) => {
           }}
         >
           {countries.map(
-            (country, index) =>
+            (country) =>
               country.Country && (
-                <option key={index} value={country.Slug}>
+                <option key={country.Slug} value={country.Slug}>
                   {country.Country}
                 </option>
-              )
+              ),
           )}
         </select>
       </label>

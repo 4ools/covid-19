@@ -33,13 +33,27 @@ function App() {
       const jsonData = await response.json();
 
       // Append Global to the list of countries as the first item of the countries array
-      const newData = { ...jsonData.Global, Country: 'Global', Slug: 'global' };
-      jsonData.Countries.unshift(newData);
-      setAPIData(jsonData);
-      setFigures(jsonData.Global);
+      const processedAPIData = addGlobalToCountry(jsonData);
+      setAPIData(processedAPIData);
+      setFigures(processedAPIData.Global);
     }
     getData();
   }, []);
+
+  function addGlobalToCountry(apiResponse) {
+    const newData = {
+      Country: 'Global',
+      Slug: 'global',
+      ...apiResponse.Global,
+    };
+
+    const updatedData = {};
+    Object.assign(updatedData, apiResponse);
+    updatedData.Countries.unshift(newData);
+    updatedData.Global = newData;
+    delete updatedData.Global.Slug;
+    return updatedData;
+  }
 
   function pickCountry(slug) {
     const data = APIData.Countries.filter((c) => c.Slug === slug);
@@ -47,6 +61,7 @@ function App() {
       return;
     }
     const {
+      Country,
       NewConfirmed,
       TotalConfirmed,
       NewDeaths,
@@ -56,6 +71,7 @@ function App() {
     } = data[0];
 
     setFigures({
+      Country,
       NewConfirmed,
       TotalConfirmed,
       NewDeaths,

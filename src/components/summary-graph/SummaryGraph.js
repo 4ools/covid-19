@@ -6,18 +6,9 @@ import { Typography } from '@material-ui/core';
 const SummaryGraph = ({ figures }) => {
   const theme = useTheme();
 
-  const keys = figures[0]
-    ? Object.keys(figures[0])
-    : [
-        'THING',
-        'NewConfirmed',
-        'TotalConfirmed',
-        'NewDeaths',
-        'TotalDeaths',
-        'NewRecovered',
-        'TotalRecovered',
-      ];
+  const keys = figures[0] ? Object.keys(figures[0]) : [];
 
+  // colours for the chart
   const colors = {
     NewConfirmed: theme.palette.primary.light,
     TotalConfirmed: theme.palette.primary.dark,
@@ -30,11 +21,11 @@ const SummaryGraph = ({ figures }) => {
   const getColor = (bar) => colors[bar.id];
   return (
     <>
-      <Typography variant="h6">Summary graph</Typography>
+      <Typography variant="h5">Top 5 Countries</Typography>
       <div style={{ height: 500 }}>
         <ResponsiveBar
           data={figures}
-          keys={keys.slice(1, keys.length - 1)}
+          keys={keys.slice(1, keys.length)}
           indexBy="CountryCode"
           margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
           padding={0.3}

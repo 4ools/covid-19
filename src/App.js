@@ -3,6 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
+// import moment from 'moment';
 import Summary from './components/summary/Summary';
 import SummaryGraph from './components/summary-graph/SummaryGraph';
 import CountryPicker from './components/country-picker/CountryPicker';
@@ -42,14 +43,23 @@ function App() {
 
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(jsonData);
+
+      const cloneForFirstLoad = JSON.parse(JSON.stringify(processedAPIData));
+
+      // else it will show the slug in the summary list
+      delete cloneForFirstLoad.Global.Slug;
+
       setAPIData(processedAPIData);
-      setFigures(processedAPIData.Global);
-      setDate(Date(processedAPIData.Date));
+      setFigures(cloneForFirstLoad.Global);
+
+      setDate(new Date(processedAPIData.Date).toDateString());
 
       const countriesDataForSummaryFigures = dataForSummaryGraph(
         processedAPIData.Countries,
       );
-      setSummaryChartFigures(countriesDataForSummaryFigures);
+      setSummaryChartFigures(
+        sortDataByConfirmedCases(countriesDataForSummaryFigures),
+      );
     }
     getData();
   }, []);
@@ -97,7 +107,6 @@ function App() {
     const updatedData = { ...apiResponse };
     updatedData.Countries.unshift(newData);
     updatedData.Global = newData;
-    delete updatedData.Global.Slug;
     return updatedData;
   }
 
@@ -151,18 +160,7 @@ function App() {
           {/* Line graph */}
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <SummaryGraph
-                figures={sortDataByConfirmedCases(summaryChartFigures)}
-              />
-              {/* <CountryPicker
-                pickCountry={pickCountry}
-                countries={APIData.Countries}
-              />
-
-              <CountryPicker
-                pickCountry={pickCountry}
-                countries={APIData.Countries}
-              /> */}
+              <SummaryGraph figures={summaryChartFigures} />
             </Paper>
           </Grid>
         </Grid>

@@ -20,8 +20,6 @@ const Summary = ({ figures, date }) => {
   `;
   return (
     <React.Fragment>
-      <Typography variant="h3">Summary</Typography>
-      <br />
       <ul css={ulStyle}>
         {Object.keys(figures).map((key) => {
           return (

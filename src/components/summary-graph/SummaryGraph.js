@@ -21,7 +21,7 @@ const SummaryGraph = ({ figures }) => {
   const getColor = (bar) => colors[bar.id];
   return figures[0] ? (
     <>
-      <Typography variant="h5">Top 5 Country Totals</Typography>
+      <Typography variant="h5">Highest Country Totals</Typography>
       <div style={{ height: 500 }}>
         <ResponsiveBar
           data={figures}

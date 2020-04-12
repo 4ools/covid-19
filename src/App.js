@@ -3,12 +3,15 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { Typography } from '@material-ui/core';
 import Summary from './components/summary/Summary';
 import SummaryGraph from './components/summary-graph/SummaryGraph';
 import CountryPicker from './components/country-picker/CountryPicker';
 import NavBar from './components/nav-bar/navBar';
 import Layout from './components/layout/Layout';
 import Footer from './components/footer/Footer';
+import getSummaryChartFigures from './utils/summary-graph';
+import addGlobalToCountry from './utils/add-global';
 import jsonData from './data/mockSummary.json';
 import countryData from './data/mockCountry.json';
 import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
@@ -60,11 +63,8 @@ function App() {
 
       setDate(new Date(processedAPIData.Date).toDateString());
 
-      const countriesDataForSummaryFigures = dataForSummaryGraph(
-        processedAPIData.Countries,
-      );
       setSummaryChartFigures(
-        sortDataByConfirmedCases(countriesDataForSummaryFigures),
+        getSummaryChartFigures(processedAPIData.Countries),
       );
     }
 
@@ -75,52 +75,6 @@ function App() {
     getData();
     getCountryTimeSeriesData();
   }, []);
-
-  function sortDataByConfirmedCases(data) {
-    if (!data.length) {
-      return [];
-    }
-    data.sort((a, b) => a.TotalConfirmed - b.TotalConfirmed);
-
-    return data.reverse().slice(1, 6);
-  }
-
-  function dataForSummaryGraph(data) {
-    return data.map(
-      ({
-        CountryCode,
-        NewConfirmed,
-        TotalConfirmed,
-        NewDeaths,
-        TotalDeaths,
-        NewRecovered,
-        TotalRecovered,
-      }) => {
-        return {
-          CountryCode,
-          NewConfirmed,
-          TotalConfirmed,
-          NewDeaths,
-          TotalDeaths,
-          NewRecovered,
-          TotalRecovered,
-        };
-      },
-    );
-  }
-
-  function addGlobalToCountry(apiResponse) {
-    const newData = {
-      Country: 'Global',
-      Slug: 'global',
-      ...apiResponse.Global,
-    };
-
-    const updatedData = { ...apiResponse };
-    updatedData.Countries.unshift(newData);
-    updatedData.Global = newData;
-    return updatedData;
-  }
 
   function prepareCountriesTimeSeriesFigures() {
     const timeSeriesData = countryData.map((data) => {
@@ -169,15 +123,17 @@ function App() {
           <Grid item xs={12} />
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <Grid container spacing={3}>
-                <Grid item xs={8}>
-                  <Summary figures={figures} date={date} />
-                </Grid>
-                <Grid item xs={4}>
+              <Grid container spacing={5}>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="h5">Select your Country</Typography>
+                  <br />
                   <CountryPicker
                     pickCountry={pickCountry}
                     countries={APIData.Countries}
                   />
+                </Grid>
+                <Grid item xs={23} sm={6}>
+                  <Summary figures={figures} date={date} />
                 </Grid>
               </Grid>
             </Paper>

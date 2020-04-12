@@ -13,7 +13,7 @@ import Footer from './components/footer/Footer';
 import getSummaryChartFigures from './utils/summary-graph';
 import addGlobalToCountry from './utils/add-global';
 import jsonData from './data/mockSummary.json';
-import countryData from './data/mockCountry.json';
+import getDataForTimeSeriesGraph from './utils/time-series-graph';
 import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 
 const useStyles = makeStyles((theme) => ({
@@ -69,25 +69,11 @@ function App() {
     }
 
     async function getCountryTimeSeriesData() {
-      console.log(prepareCountriesTimeSeriesFigures());
-      setCountriesTimeSeriesFigures(prepareCountriesTimeSeriesFigures());
+      setCountriesTimeSeriesFigures(getDataForTimeSeriesGraph([]));
     }
     getData();
     getCountryTimeSeriesData();
   }, []);
-
-  function prepareCountriesTimeSeriesFigures() {
-    const timeSeriesData = countryData.map((data, index) => {
-      return {
-        x: index + 1,
-        y: data.Cases,
-      };
-    });
-
-    return [
-      { id: 'japan', color: 'hsl(340, 70%, 50%)', data: [...timeSeriesData] },
-    ];
-  }
 
   function pickCountry(slug) {
     const data = APIData.Countries.filter((c) => c.Slug === slug);
@@ -132,7 +118,7 @@ function App() {
                     countries={APIData.Countries}
                   />
                 </Grid>
-                <Grid item xs={23} sm={6}>
+                <Grid item xs={12} sm={6}>
                   <Summary figures={figures} date={date} />
                 </Grid>
               </Grid>

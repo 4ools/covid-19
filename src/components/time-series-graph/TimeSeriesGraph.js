@@ -3,7 +3,7 @@ import { ResponsiveLine } from '@nivo/line';
 import { Typography } from '@material-ui/core';
 
 const MyResponsiveLine = ({ data }) => {
-  return data[0] ? (
+  return data ? (
     <>
       <Typography variant="h5">Top 5 Countries</Typography>
       <div style={{ height: 500 }}>

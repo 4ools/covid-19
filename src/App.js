@@ -9,7 +9,9 @@ import CountryPicker from './components/country-picker/CountryPicker';
 import NavBar from './components/nav-bar/navBar';
 import Layout from './components/layout/Layout';
 import Footer from './components/footer/Footer';
-// import jsonData from './data/mockSummary.json';
+import jsonData from './data/mockSummary.json';
+import countryData from './data/mockCountry.json';
+import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,14 +34,18 @@ function App() {
   // chart figures for the bar chart
   const [summaryChartFigures, setSummaryChartFigures] = useState({});
 
+  const [countriesTimeSeriesFigures, setCountriesTimeSeriesFigures] = useState(
+    [],
+  );
+
   const [date, setDate] = useState(null);
 
   const classes = useStyles();
 
   useEffect(() => {
     async function getData() {
-      const response = await fetch('https://api.covid19api.com/summary');
-      const jsonData = await response.json();
+      // const response = await fetch('https://api.covid19api.com/summary');
+      // const jsonData = await response.json();
 
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(jsonData);
@@ -61,7 +67,13 @@ function App() {
         sortDataByConfirmedCases(countriesDataForSummaryFigures),
       );
     }
+
+    async function getCountryTimeSeriesData() {
+      console.log(prepareCountriesTimeSeriesFigures());
+      setCountriesTimeSeriesFigures(prepareCountriesTimeSeriesFigures());
+    }
     getData();
+    getCountryTimeSeriesData();
   }, []);
 
   function sortDataByConfirmedCases(data) {
@@ -108,6 +120,19 @@ function App() {
     updatedData.Countries.unshift(newData);
     updatedData.Global = newData;
     return updatedData;
+  }
+
+  function prepareCountriesTimeSeriesFigures() {
+    const timeSeriesData = countryData.map((data) => {
+      return {
+        x: new Date(data.Date).toDateString(),
+        y: data.Cases,
+      };
+    });
+
+    return [
+      { id: 'japan', color: 'hsl(340, 70%, 50%)', data: [...timeSeriesData] },
+    ];
   }
 
   function pickCountry(slug) {
@@ -161,6 +186,11 @@ function App() {
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <SummaryGraph figures={summaryChartFigures} />
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              <TimeSeriesGraph data={countriesTimeSeriesFigures} />
             </Paper>
           </Grid>
           <Grid item xs={12}>

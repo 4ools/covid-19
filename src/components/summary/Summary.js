@@ -2,7 +2,7 @@
 import { jsx, css } from '@emotion/core';
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import cssStyles from '../../utils/keyColors';
+import cssStyles from '../../utils/key-colors';
 
 const Summary = ({ figures, date }) => {
   const colorStyles = cssStyles();
@@ -36,7 +36,7 @@ const Summary = ({ figures, date }) => {
           );
         })}
       </ul>
-      <Typography variant="caption"> {date} </Typography>
+      <Typography variant="caption">Last updated: {date} </Typography>
     </React.Fragment>
   );
 };

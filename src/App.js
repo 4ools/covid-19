@@ -36,6 +36,7 @@ function App() {
   const [figures, setFigures] = useState({});
 
   const [topFiveCountrySlugs, setTopFiveCountrySlugs] = useState([]);
+  const [topFiveData, setTopFiveData] = useState([]);
 
   // chart figures for the bar chart
   const [summaryChartFigures, setSummaryChartFigures] = useState({});
@@ -66,10 +67,12 @@ function App() {
 
       setDate(new Date(processedAPIData.Date).toDateString());
 
-      const topFiveData = getTopFiveCountries(processedAPIData.Countries);
-      setTopFiveCountrySlugs(topFiveData.map((country) => country.Slug));
+      const topData = getTopFiveCountries(processedAPIData.Countries);
 
-      setSummaryChartFigures(getSummaryChartFigures(topFiveData));
+      setTopFiveData(topData);
+      setTopFiveCountrySlugs(topData.map((country) => country.Slug));
+
+      setSummaryChartFigures(getSummaryChartFigures(topData));
 
       setCountriesTimeSeriesFigures(
         getDataForTimeSeriesGraph(topFiveCountrySlugs, 'Confirmed'),
@@ -109,6 +112,14 @@ function App() {
       NewRecovered,
       TotalRecovered,
     });
+
+    // check if the counties data is shown in the graphs, if not add selected
+    // countries data to the graphs
+    const match = topFiveData.filter((c) => c.Slug === slug);
+
+    if (!match.length && slug !== 'global') {
+      setSummaryChartFigures(getSummaryChartFigures([data[0], ...topFiveData]));
+    }
   }
 
   return (

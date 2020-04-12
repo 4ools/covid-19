@@ -1,7 +1,7 @@
 import UKData from '../data/mockDayOneUnitedKingdom.json';
 import ITData from '../data/mockDayOneItaly.json';
 
-const makeRequestsForTopFiveData = (topFiveCountries) => {
+const makeRequestsForTopFiveData = (topFiveSlugs) => {
   // here we would make the requests to get the day one data for the top five
   // if it is not cached, for now though we can just grab the mocks
 
@@ -26,10 +26,8 @@ const formatDataForGraph = (jsonData) => {
 
 // arg for the top fixe countries is an array of the slugs
 // [italy, united-states ...]
-const getDataForTimeSeriesGraph = (topFiveCountries) => {
-  const data = formatDataForGraph(makeRequestsForTopFiveData(topFiveCountries));
-  // console.log(data);
-  return data;
+const getDataForTimeSeriesGraph = (topFiveSlugs) => {
+  return formatDataForGraph(makeRequestsForTopFiveData(topFiveSlugs));
 };
 
 export default getDataForTimeSeriesGraph;

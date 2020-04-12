@@ -1,4 +1,4 @@
-const dataForSummaryGraph = (data) => {
+const getSummaryChartFigures = (data) => {
   return data.map(
     ({
       CountryCode,
@@ -20,22 +20,6 @@ const dataForSummaryGraph = (data) => {
       };
     },
   );
-};
-
-const sortDataByConfirmedCases = (data) => {
-  if (!data.length) {
-    return [];
-  }
-  data.sort((a, b) => a.TotalConfirmed - b.TotalConfirmed);
-
-  return data.reverse().slice(1, 6);
-};
-
-// get the data for the summary chart public function
-const getSummaryChartFigures = (data) => {
-  const countriesDataForSummaryFigures = dataForSummaryGraph(data);
-
-  return sortDataByConfirmedCases(countriesDataForSummaryFigures);
 };
 
 export default getSummaryChartFigures;

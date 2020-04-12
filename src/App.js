@@ -15,6 +15,7 @@ import addGlobalToCountry from './utils/add-global';
 import jsonData from './data/mockSummary.json';
 import getDataForTimeSeriesGraph from './utils/time-series-graph';
 import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
+import getTopFiveCountries from './utils/get-top-five';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,16 +64,17 @@ function App() {
 
       setDate(new Date(processedAPIData.Date).toDateString());
 
-      setSummaryChartFigures(
-        getSummaryChartFigures(processedAPIData.Countries),
+      const topFiveData = getTopFiveCountries(processedAPIData.Countries);
+      const topFiveCountrySlugs = topFiveData.map((country) => country.Slug);
+
+      setSummaryChartFigures(getSummaryChartFigures(topFiveData));
+
+      setCountriesTimeSeriesFigures(
+        getDataForTimeSeriesGraph(topFiveCountrySlugs),
       );
     }
 
-    async function getCountryTimeSeriesData() {
-      setCountriesTimeSeriesFigures(getDataForTimeSeriesGraph([]));
-    }
     getData();
-    getCountryTimeSeriesData();
   }, []);
 
   function pickCountry(slug) {

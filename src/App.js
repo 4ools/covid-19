@@ -113,11 +113,17 @@ function App() {
       TotalRecovered,
     });
 
+    // reset the charts
+    if (slug === 'global') {
+      setSummaryChartFigures(getSummaryChartFigures(topFiveData));
+      return;
+    }
+
     // check if the counties data is shown in the graphs, if not add selected
     // countries data to the graphs
     const match = topFiveData.filter((c) => c.Slug === slug);
 
-    if (!match.length && slug !== 'global') {
+    if (!match.length) {
       setSummaryChartFigures(getSummaryChartFigures([data[0], ...topFiveData]));
     }
   }

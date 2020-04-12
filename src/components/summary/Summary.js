@@ -36,7 +36,7 @@ const Summary = ({ figures, date }) => {
           );
         })}
       </ul>
-      <Typography variant="caption"> {date} </Typography>
+      <Typography variant="caption">Last updated: {date} </Typography>
     </React.Fragment>
   );
 };

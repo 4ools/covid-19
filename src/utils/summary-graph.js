@@ -1,7 +1,7 @@
 const getSummaryChartFigures = (data) => {
   return data.map(
     ({
-      CountryCode,
+      Country,
       NewConfirmed,
       TotalConfirmed,
       NewDeaths,
@@ -10,7 +10,7 @@ const getSummaryChartFigures = (data) => {
       TotalRecovered,
     }) => {
       return {
-        CountryCode,
+        Country,
         NewConfirmed,
         TotalConfirmed,
         NewDeaths,

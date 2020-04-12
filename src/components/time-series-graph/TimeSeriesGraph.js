@@ -5,7 +5,9 @@ import { Typography } from '@material-ui/core';
 const MyResponsiveLine = ({ data }) => {
   return data ? (
     <>
-      <Typography variant="h5">Top 5 Countries</Typography>
+      <Typography variant="h5">
+        Number of cases after day of first case
+      </Typography>
       <div style={{ height: 500 }}>
         <ResponsiveLine
           data={data}

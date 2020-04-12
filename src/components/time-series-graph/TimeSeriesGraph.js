@@ -1,11 +1,7 @@
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { Typography } from '@material-ui/core';
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
+
 const MyResponsiveLine = ({ data }) => {
   return data[0] ? (
     <>
@@ -13,8 +9,8 @@ const MyResponsiveLine = ({ data }) => {
       <div style={{ height: 500 }}>
         <ResponsiveLine
           data={data}
-          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-          xScale={{ type: 'point' }}
+          margin={{ top: 50, right: 110, bottom: 50, left: 80 }}
+          xScale={{ type: 'linear' }}
           yScale={{
             type: 'linear',
             min: 'auto',
@@ -29,7 +25,7 @@ const MyResponsiveLine = ({ data }) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'transportation',
+            legend: 'Days',
             legendOffset: 36,
             legendPosition: 'middle',
           }}
@@ -38,18 +34,18 @@ const MyResponsiveLine = ({ data }) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'count',
-            legendOffset: -40,
+            legend: 'Cases',
+            legendOffset: -70,
             legendPosition: 'middle',
           }}
           colors={{ scheme: 'nivo' }}
-          pointSize={10}
+          pointSize={5}
           pointColor={{ theme: 'background' }}
           pointBorderWidth={2}
           pointBorderColor={{ from: 'serieColor' }}
           pointLabel="y"
           pointLabelYOffset={-12}
-          useMesh={true}
+          useMesh
           legends={[
             {
               anchor: 'bottom-right',
@@ -62,7 +58,7 @@ const MyResponsiveLine = ({ data }) => {
               itemWidth: 80,
               itemHeight: 20,
               itemOpacity: 0.75,
-              symbolSize: 12,
+              symbolSize: 10,
               symbolShape: 'circle',
               symbolBorderColor: 'rgba(0, 0, 0, .5)',
               effects: [

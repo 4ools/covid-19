@@ -77,9 +77,9 @@ function App() {
   }, []);
 
   function prepareCountriesTimeSeriesFigures() {
-    const timeSeriesData = countryData.map((data) => {
+    const timeSeriesData = countryData.map((data, index) => {
       return {
-        x: new Date(data.Date).toDateString(),
+        x: index + 1,
         y: data.Cases,
       };
     });

@@ -1,12 +1,16 @@
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { Typography } from '@material-ui/core';
+import TypePicker from '../type-picker/TypePicker';
 
-const MyResponsiveLine = ({ data }) => {
+const CoronaTimeSeries = ({ data, pickType }) => {
   return data ? (
     <>
-      <Typography variant="h5">
-        Number of cases after day of first case
+      <Typography
+        variant="h5"
+        style={{ display: 'flex', alignItems: 'center' }}
+      >
+        Number of <TypePicker pickType={pickType} /> after day of first case
       </Typography>
       <div style={{ height: 500 }}>
         <ResponsiveLine
@@ -36,7 +40,7 @@ const MyResponsiveLine = ({ data }) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'Cases',
+            legend: 'Total',
             legendOffset: -70,
             legendPosition: 'middle',
           }}
@@ -82,4 +86,4 @@ const MyResponsiveLine = ({ data }) => {
   );
 };
 
-export default MyResponsiveLine;
+export default CoronaTimeSeries;

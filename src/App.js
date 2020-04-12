@@ -35,6 +35,8 @@ function App() {
   // which figures do we currently show
   const [figures, setFigures] = useState({});
 
+  const [topFiveCountrySlugs, setTopFiveCountrySlugs] = useState([]);
+
   // chart figures for the bar chart
   const [summaryChartFigures, setSummaryChartFigures] = useState({});
 
@@ -65,17 +67,23 @@ function App() {
       setDate(new Date(processedAPIData.Date).toDateString());
 
       const topFiveData = getTopFiveCountries(processedAPIData.Countries);
-      const topFiveCountrySlugs = topFiveData.map((country) => country.Slug);
+      setTopFiveCountrySlugs(topFiveData.map((country) => country.Slug));
 
       setSummaryChartFigures(getSummaryChartFigures(topFiveData));
 
       setCountriesTimeSeriesFigures(
-        getDataForTimeSeriesGraph(topFiveCountrySlugs),
+        getDataForTimeSeriesGraph(topFiveCountrySlugs, 'Confirmed'),
       );
     }
 
     getData();
   }, []);
+
+  function pickType(reportType) {
+    setCountriesTimeSeriesFigures(
+      getDataForTimeSeriesGraph(topFiveCountrySlugs, reportType),
+    );
+  }
 
   function pickCountry(slug) {
     const data = APIData.Countries.filter((c) => c.Slug === slug);
@@ -134,7 +142,10 @@ function App() {
           </Grid>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <TimeSeriesGraph data={countriesTimeSeriesFigures} />
+              <TimeSeriesGraph
+                data={countriesTimeSeriesFigures}
+                pickType={pickType}
+              />
             </Paper>
           </Grid>
           <Grid item xs={12}>

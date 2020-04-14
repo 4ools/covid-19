@@ -60,8 +60,7 @@ function App() {
       const countriesData = await track.countries(null, 'cases');
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(globalData, countriesData);
-      console.log(processedAPIData);
-      const cloneForFirstLoad = JSON.parse(JSON.stringify(processedAPIData));
+      // const cloneForFirstLoad = JSON.parse(JSON.stringify(processedAPIData));
 
       // else it will show the slug in the summary list
       // delete cloneForFirstLoad.Global.Slug;
@@ -70,7 +69,6 @@ function App() {
       setFigures(processedAPIData[0]);
 
       // setDate(new Date(processedAPIData.Date).toDateString());
-
       const topData = getTopFiveCountries(countriesData);
 
       setTopFiveData(topData);
@@ -99,36 +97,22 @@ function App() {
     }
     const {
       country,
-      updated,
       cases,
       todayCases,
       deaths,
       todayDeaths,
       recovered,
-      active,
       critical,
-      casesPerOneMillion,
-      deathsPerOneMillion,
-      tests,
-      testsPerOneMillion,
-      affectedCountries,
     } = data[0];
 
     setFigures({
       country,
-      updated,
       cases,
       todayCases,
       deaths,
       todayDeaths,
       recovered,
-      active,
       critical,
-      casesPerOneMillion,
-      deathsPerOneMillion,
-      tests,
-      testsPerOneMillion,
-      affectedCountries,
     });
 
     // reset the charts
@@ -142,7 +126,7 @@ function App() {
     const match = topFiveData.filter((c) => c.country === country);
 
     if (!match.length) {
-      setSummaryChartFigures(getSummaryChartFigures([data[0], ...topFiveData]));
+      setSummaryChartFigures(getSummaryChartFigures([...topFiveData]));
     }
   }
 

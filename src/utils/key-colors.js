@@ -1,22 +1,22 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const cssStyles = makeStyles((theme) => ({
-  NewConfirmed: {
+  todayCases: {
     color: theme.palette.primary.light,
   },
-  TotalConfirmed: {
+  cases: {
     color: theme.palette.primary.dark,
   },
-  NewDeaths: {
+  todayDeaths: {
     color: theme.palette.error.light,
   },
-  TotalDeaths: {
+  deaths: {
     color: theme.palette.error.dark,
   },
-  NewRecovered: {
+  critical: {
     color: theme.palette.success.light,
   },
-  TotalRecovered: {
+  recovered: {
     color: theme.palette.success.dark,
   },
 }));

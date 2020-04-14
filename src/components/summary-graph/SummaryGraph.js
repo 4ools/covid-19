@@ -4,18 +4,20 @@ import { useTheme } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
 const SummaryGraph = ({ figures }) => {
+  console.log('Here i am');
+  console.log(figures);
   const theme = useTheme();
 
   const keys = figures[0] ? Object.keys(figures[0]) : [];
 
   // colours for the char
   const colors = {
-    NewConfirmed: theme.palette.primary.light,
-    TotalConfirmed: theme.palette.primary.dark,
-    NewDeaths: theme.palette.error.light,
-    TotalDeaths: theme.palette.error.dark,
-    NewRecovered: theme.palette.success.light,
-    TotalRecovered: theme.palette.success.dark,
+    todayCases: theme.palette.primary.light,
+    cases: theme.palette.primary.dark,
+    todayDeaths: theme.palette.error.light,
+    deaths: theme.palette.error.dark,
+    critical: theme.palette.success.light,
+    recovered: theme.palette.success.dark,
   };
 
   const getColor = (bar) => colors[bar.id];
@@ -26,7 +28,7 @@ const SummaryGraph = ({ figures }) => {
         <ResponsiveBar
           data={figures}
           keys={keys.slice(1, keys.length)}
-          indexBy="Country"
+          indexBy="country"
           margin={{ top: 50, right: 130, bottom: 50, left: 80 }}
           padding={0.3}
           // colors={getColor}

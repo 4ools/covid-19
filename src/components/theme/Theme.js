@@ -13,9 +13,6 @@ function Theme({ children }) {
           type: prefersDarkMode ? 'dark' : 'light',
           // cases
           primary: {
-            main: '#E4572E',
-          },
-          secondary: {
             main: '#3E92CC',
           },
           // deaths
@@ -33,6 +30,12 @@ function Theme({ children }) {
           // active
           action: {
             main: '#DAD7CD',
+          },
+        },
+        overrides: {
+          MuiAppBar: {
+            colorDefault: '#E4572E',
+            colorPrimary: '#E4572E',
           },
         },
       }),

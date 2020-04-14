@@ -5,8 +5,8 @@ export default function useColors() {
 
   // colours that we use in various places for the theme
   const colors = {
-    todayCases: theme.palette.secondary.dark,
-    cases: theme.palette.secondary.light,
+    todayCases: theme.palette.primary.dark,
+    cases: theme.palette.primary.light,
     todayDeaths: theme.palette.error.dark,
     deaths: theme.palette.error.light,
     critical: theme.palette.warning.main,

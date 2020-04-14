@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 
 const NavBar = () => {
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="primary">
       <Toolbar>
         <Typography variant="h6">COVID-19</Typography>
       </Toolbar>

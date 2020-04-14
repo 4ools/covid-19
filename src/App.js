@@ -28,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
   },
+  footer: {
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.primary.main,
+    color: 'white',
+  },
 }));
 
 function App() {
@@ -171,7 +176,7 @@ function App() {
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.footer}>
               <Footer />
             </Paper>
           </Grid>

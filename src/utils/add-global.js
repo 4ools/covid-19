@@ -1,12 +1,9 @@
-export default function addGlobalToCountry(apiResponse) {
+export default function addGlobalToCountry(globalData, countriesData) {
   const newData = {
-    Country: 'Global',
-    Slug: 'global',
-    ...apiResponse.Global,
+    country: 'global',
+    ...globalData,
   };
 
-  const updatedData = { ...apiResponse };
-  updatedData.Countries.unshift(newData);
-  updatedData.Global = newData;
+  const updatedData = [newData, ...countriesData];
   return updatedData;
 }

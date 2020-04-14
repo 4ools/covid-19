@@ -16,6 +16,9 @@ import jsonData from './data/mockSummary.json';
 import getDataForTimeSeriesGraph from './utils/time-series-graph';
 import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 import getTopFiveCountries from './utils/get-top-five';
+import { NovelCovid } from 'novelcovid';
+
+const track = new NovelCovid();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,30 +56,31 @@ function App() {
     async function getData() {
       // const response = await fetch('https://api.covid19api.com/summary');
       // const jsonData = await response.json();
-
+      const globalData = await track.all();
+      const countriesData = await track.countries(null, 'cases');
       // Append Global to the list of countries as the first item of the countries array
-      const processedAPIData = addGlobalToCountry(jsonData);
-
+      const processedAPIData = addGlobalToCountry(globalData, countriesData);
+      console.log(processedAPIData);
       const cloneForFirstLoad = JSON.parse(JSON.stringify(processedAPIData));
 
       // else it will show the slug in the summary list
-      delete cloneForFirstLoad.Global.Slug;
+      // delete cloneForFirstLoad.Global.Slug;
 
       setAPIData(processedAPIData);
-      setFigures(cloneForFirstLoad.Global);
+      setFigures(processedAPIData[0]);
 
-      setDate(new Date(processedAPIData.Date).toDateString());
+      // setDate(new Date(processedAPIData.Date).toDateString());
 
-      const topData = getTopFiveCountries(processedAPIData.Countries);
+      const topData = getTopFiveCountries(countriesData);
 
       setTopFiveData(topData);
-      setTopFiveCountrySlugs(topData.map((country) => country.Slug));
+      // setTopFiveCountrySlugs(topData.map((country) => country.Slug));
 
       setSummaryChartFigures(getSummaryChartFigures(topData));
 
-      setCountriesTimeSeriesFigures(
-        getDataForTimeSeriesGraph(topFiveCountrySlugs, 'Confirmed'),
-      );
+      // setCountriesTimeSeriesFigures(
+      //   getDataForTimeSeriesGraph(topFiveCountrySlugs, 'Confirmed'),
+      // );
     }
 
     getData();
@@ -88,40 +92,54 @@ function App() {
     );
   }
 
-  function pickCountry(slug) {
-    const data = APIData.Countries.filter((c) => c.Slug === slug);
+  function pickCountry(option) {
+    const data = APIData.filter((c) => c.country === option);
     if (!data.length) {
       return;
     }
     const {
-      Country,
-      NewConfirmed,
-      TotalConfirmed,
-      NewDeaths,
-      TotalDeaths,
-      NewRecovered,
-      TotalRecovered,
+      country,
+      updated,
+      cases,
+      todayCases,
+      deaths,
+      todayDeaths,
+      recovered,
+      active,
+      critical,
+      casesPerOneMillion,
+      deathsPerOneMillion,
+      tests,
+      testsPerOneMillion,
+      affectedCountries,
     } = data[0];
 
     setFigures({
-      Country,
-      NewConfirmed,
-      TotalConfirmed,
-      NewDeaths,
-      TotalDeaths,
-      NewRecovered,
-      TotalRecovered,
+      country,
+      updated,
+      cases,
+      todayCases,
+      deaths,
+      todayDeaths,
+      recovered,
+      active,
+      critical,
+      casesPerOneMillion,
+      deathsPerOneMillion,
+      tests,
+      testsPerOneMillion,
+      affectedCountries,
     });
 
     // reset the charts
-    if (slug === 'global') {
+    if (country === 'global') {
       setSummaryChartFigures(getSummaryChartFigures(topFiveData));
       return;
     }
 
     // check if the counties data is shown in the graphs, if not add selected
     // countries data to the graphs
-    const match = topFiveData.filter((c) => c.Slug === slug);
+    const match = topFiveData.filter((c) => c.country === country);
 
     if (!match.length) {
       setSummaryChartFigures(getSummaryChartFigures([data[0], ...topFiveData]));
@@ -142,7 +160,7 @@ function App() {
                   <br />
                   <CountryPicker
                     pickCountry={pickCountry}
-                    countries={APIData.Countries}
+                    countries={APIData}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>

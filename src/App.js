@@ -54,10 +54,10 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      // const globalData = await covidAPI.all();
-      // const countriesData = await covidAPI.countries(null, 'cases');
-      const globalData = allData;
-      const countriesData = countryData;
+      const globalData = await covidAPI.all();
+      const countriesData = await covidAPI.countries(null, 'cases');
+      // const globalData = allData;
+      // const countriesData = countryData;
 
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(globalData, countriesData);
@@ -76,21 +76,21 @@ function App() {
 
       setSummaryChartFigures(getSummaryChartFigures(topData));
 
-      // setCountriesTimeSeriesFigures(
-      //   getDataForTimeSeriesGraph('confirmed'),
-      // );
+      setCountriesTimeSeriesFigures(
+        await getDataForTimeSeriesGraph('cases', topData),
+      );
     }
 
     getData();
   }, []);
 
-  function pickType(reportType) {
-    // setCountriesTimeSeriesFigures(
-    //   getDataForTimeSeriesGraph(reportType),
-    // );
+  async function pickType(reportType) {
+    setCountriesTimeSeriesFigures(
+      await getDataForTimeSeriesGraph(reportType, topFiveData),
+    );
   }
 
-  function pickCountry(option) {
+  async function pickCountry(option) {
     const data = APIData.filter((c) => c.country === option);
     if (!data.length) {
       return;
@@ -129,6 +129,9 @@ function App() {
 
     if (!match.length) {
       setSummaryChartFigures(getSummaryChartFigures([...topFiveData, data[0]]));
+      setCountriesTimeSeriesFigures(
+        await getDataForTimeSeriesGraph('cases', [...topFiveData, data[0]]),
+      );
     }
   }
 

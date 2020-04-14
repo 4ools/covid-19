@@ -25,12 +25,12 @@ const Summary = ({ figures, date }) => {
     list-style-type: none;
     display: flex;
     flex-direction: column;
-    margin: 0; /* To remove default bottom margin */
+    margin: 0 0 10px 0; /* To remove default bottom margin */
     padding: 0; /* To remove default left padding */
   `;
 
   const liStyle = css`
-    margin-bottom: 10px;
+    margin: 0 0 -7px 0;
   `;
 
   const formatStatisticTitle = (title) =>
@@ -44,11 +44,13 @@ const Summary = ({ figures, date }) => {
             <li css={liStyle} key={key}>
               <Typography variant="h5">
                 {formatStatisticTitle(key)}:{' '}
-                <span className={colorStyles[key]}>
-                  {typeof figures[key] !== 'number'
-                    ? formatStatisticTitle(figures[key])
-                    : new Intl.NumberFormat('en-US').format(figures[key])}
-                </span>
+                {typeof figures[key] !== 'number' ? (
+                  formatStatisticTitle(figures[key])
+                ) : (
+                  <span className={colorStyles[key]} style={{ fontSize: 40 }}>
+                    {new Intl.NumberFormat('en-US').format(figures[key])}
+                  </span>
+                )}
               </Typography>
             </li>
           );

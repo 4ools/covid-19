@@ -4,12 +4,15 @@ import mockSpain from '../data/mockSpain.json';
 import mockFrance from '../data/mockFrance.json';
 import mockItaly from '../data/mockItaly.json';
 import mockUSA from '../data/mockUSA.json';
+import debugMode from './debugMode';
 
 const covidAPI = new NovelCovid();
 const historicalCountryDataInMemory = {};
 
 const makeRequestsForCountries = async (countryData) => {
-  return [mockFrance, mockGermany, mockItaly, mockSpain, mockUSA];
+  if (debugMode) {
+    return [mockFrance, mockGermany, mockItaly, mockSpain, mockUSA];
+  }
 
   // get the names we want to request
   let countries = countryData.map((c) => c.country);

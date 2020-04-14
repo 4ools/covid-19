@@ -18,6 +18,7 @@ import addGlobalToCountry from './utils/add-global';
 import getDataForTimeSeriesGraph from './utils/time-series-graph';
 import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 import getTopFiveCountries from './utils/get-top-five';
+import debugMode from './utils/debugMode';
 
 const covidAPI = new NovelCovid();
 
@@ -59,16 +60,22 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      // const globalData = await covidAPI.all();
-      // const countriesData = await covidAPI.countries(null, 'cases');
-      const globalData = allData;
-      const countriesData = countryData;
+      let globalData;
+      let countriesData;
+
+      // @TODO get this from an env var but who cares for now
+      if (!debugMode) {
+        globalData = await covidAPI.all();
+        countriesData = await covidAPI.countries(null, 'cases');
+      } else {
+        globalData = allData;
+        countriesData = countryData;
+      }
 
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(globalData, countriesData);
 
       setAPIData(processedAPIData);
-      console.log(processedAPIData);
 
       setFigures(processedAPIData[0]);
 

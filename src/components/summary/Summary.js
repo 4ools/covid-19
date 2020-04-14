@@ -18,6 +18,10 @@ const Summary = ({ figures, date }) => {
   const liStyle = css`
     margin-bottom: 10px;
   `;
+
+  const formatStatisticTitle = (title) =>
+    (title.charAt(0).toUpperCase() + title.slice(1)).replace(/([A-Z])/g, ' $1');
+
   return (
     <React.Fragment>
       <ul css={ulStyle}>
@@ -25,10 +29,10 @@ const Summary = ({ figures, date }) => {
           return (
             <li css={liStyle} key={key}>
               <Typography variant="h5">
-                {key.replace(/([A-Z])/g, ' $1')}:{' '}
+                {formatStatisticTitle(key)}:{' '}
                 <span className={colorStyles[key]}>
                   {typeof figures[key] !== 'number'
-                    ? figures[key]
+                    ? formatStatisticTitle(figures[key])
                     : new Intl.NumberFormat('en-US').format(figures[key])}
                 </span>
               </Typography>

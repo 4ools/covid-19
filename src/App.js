@@ -4,6 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Typography } from '@material-ui/core';
+import { NovelCovid } from 'novelcovid';
+import countryData from './data/mockCountries.json';
+import allData from './data/mockSummary.json';
 import Summary from './components/summary/Summary';
 import SummaryGraph from './components/summary-graph/SummaryGraph';
 import CountryPicker from './components/country-picker/CountryPicker';
@@ -12,13 +15,11 @@ import Layout from './components/layout/Layout';
 import Footer from './components/footer/Footer';
 import getSummaryChartFigures from './utils/summary-graph';
 import addGlobalToCountry from './utils/add-global';
-import jsonData from './data/mockSummary.json';
 import getDataForTimeSeriesGraph from './utils/time-series-graph';
 import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 import getTopFiveCountries from './utils/get-top-five';
-import { NovelCovid } from 'novelcovid';
 
-const track = new NovelCovid();
+const covidAPI = new NovelCovid();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,10 +55,11 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      // const response = await fetch('https://api.covid19api.com/summary');
-      // const jsonData = await response.json();
-      const globalData = await track.all();
-      const countriesData = await track.countries(null, 'cases');
+      // const globalData = await covidAPI.all();
+      // const countriesData = await covidAPI.countries(null, 'cases');
+      const globalData = allData;
+      const countriesData = countryData;
+
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(globalData, countriesData);
       // const cloneForFirstLoad = JSON.parse(JSON.stringify(processedAPIData));
@@ -68,7 +70,7 @@ function App() {
       setAPIData(processedAPIData);
       setFigures(processedAPIData[0]);
 
-      // setDate(new Date(processedAPIData.Date).toDateString());
+      setDate(new Date(globalData.updated).toDateString());
       const topData = getTopFiveCountries(countriesData);
 
       setTopFiveData(topData);
@@ -102,6 +104,7 @@ function App() {
       deaths,
       todayDeaths,
       recovered,
+      active,
       critical,
     } = data[0];
 
@@ -112,6 +115,7 @@ function App() {
       deaths,
       todayDeaths,
       recovered,
+      active,
       critical,
     });
 

@@ -2,8 +2,20 @@ import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { Typography } from '@material-ui/core';
 import TypePicker from '../type-picker/TypePicker';
+import useColors from '../../hooks/useColors';
 
 const CoronaTimeSeries = ({ data, pickType }) => {
+  const colors = useColors();
+  const colorKeys = Object.keys(colors);
+  let index = 0;
+  const getColor = () => {
+    index += 1;
+    if (!colors[colorKeys[index]]) {
+      index = 0;
+    }
+    return colors[colorKeys[index]];
+  };
+
   return data ? (
     <>
       <Typography
@@ -44,7 +56,7 @@ const CoronaTimeSeries = ({ data, pickType }) => {
             legendOffset: -70,
             legendPosition: 'middle',
           }}
-          colors={{ scheme: 'nivo' }}
+          colors={getColor}
           pointSize={5}
           pointColor={{ theme: 'background' }}
           pointBorderWidth={2}

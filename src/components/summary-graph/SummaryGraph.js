@@ -11,7 +11,8 @@ const SummaryGraph = ({ figures }) => {
   return figures[0] ? (
     <>
       <Typography variant="h5">Highest Country Totals</Typography>
-      <div style={{ height: 500 }}>
+      <br />
+      <div style={{ height: 500, backgroundColor: 'white', borderRadius: 5 }}>
         <ResponsiveBar
           data={figures}
           keys={keys.slice(1, keys.length)}
@@ -40,7 +41,7 @@ const SummaryGraph = ({ figures }) => {
           }}
           labelSkipWidth={12}
           labelSkipHeight={12}
-          labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+          labelTextColor={{ from: 'color', modifiers: [['brighter', 1.6]] }}
           legends={[
             {
               dataFrom: 'keys',

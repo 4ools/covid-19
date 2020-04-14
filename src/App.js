@@ -61,12 +61,10 @@ function App() {
 
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(globalData, countriesData);
-      // const cloneForFirstLoad = JSON.parse(JSON.stringify(processedAPIData));
-
-      // else it will show the slug in the summary list
-      // delete cloneForFirstLoad.Global.Slug;
 
       setAPIData(processedAPIData);
+      console.log(processedAPIData);
+
       setFigures(processedAPIData[0]);
 
       setDate(new Date(globalData.updated).toDateString());

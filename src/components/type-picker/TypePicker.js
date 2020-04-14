@@ -8,7 +8,6 @@ const TypePicker = ({ pickType }) => {
     <Autocomplete
       id="countryPicker"
       options={options}
-      // getOptionLabel={(option) => option.Country}
       style={{ width: '170px', display: 'inline-block', margin: '0 10px' }}
       renderInput={(params) => (
         <TextField {...params} label="cases" variant="outlined" />

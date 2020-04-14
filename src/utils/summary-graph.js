@@ -1,22 +1,24 @@
 const getSummaryChartFigures = (data) => {
   return data.map(
     ({
-      Country,
-      NewConfirmed,
-      TotalConfirmed,
-      NewDeaths,
-      TotalDeaths,
-      NewRecovered,
-      TotalRecovered,
+      country,
+      cases,
+      todayCases,
+      deaths,
+      todayDeaths,
+      critical,
+      active,
+      recovered,
     }) => {
       return {
-        Country,
-        NewConfirmed,
-        TotalConfirmed,
-        NewDeaths,
-        TotalDeaths,
-        NewRecovered,
-        TotalRecovered,
+        country,
+        cases,
+        todayCases,
+        deaths,
+        todayDeaths,
+        critical,
+        active,
+        recovered,
       };
     },
   );

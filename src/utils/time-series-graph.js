@@ -1,36 +1,63 @@
-import UKData from '../data/mockDayOneUnitedKingdom.json';
-import ITData from '../data/mockDayOneItaly.json';
+import { NovelCovid } from 'novelcovid';
+import mockGermany from '../data/mockGermany.json';
+import mockSpain from '../data/mockSpain.json';
+import mockFrance from '../data/mockFrance.json';
+import mockItaly from '../data/mockItaly.json';
+import mockUSA from '../data/mockUSA.json';
+import debugMode from './debugMode';
 
-// @TODO keep ref to old requests in le cache for when we change the report type
+const covidAPI = new NovelCovid();
+const historicalCountryDataInMemory = {};
 
-const makeRequestsForTopFiveData = (topFiveSlugs) => {
-  // here we would make the requests to get the day one data for the top five
-  // if it is not cached, for now though we can just grab the mocks
+const makeRequestsForCountries = async (countryData) => {
+  if (debugMode) {
+    return [mockFrance, mockGermany, mockItaly, mockSpain, mockUSA];
+  }
 
-  // @TODO request all the data, add to an array
+  // get the names we want to request
+  let countries = countryData.map((c) => c.country);
 
-  const data = [UKData, ITData];
+  // our bucket of data for lata
+  const historyData = [];
 
-  return data;
+  // if we have the data already, don't re-request it
+  countries = countries.filter((c) => {
+    // if historicalCountryData[USA]...
+    if (historicalCountryDataInMemory[c]) {
+      historyData.push(historicalCountryDataInMemory[c]);
+    }
+    return !historicalCountryDataInMemory[c];
+  });
+
+  const historyFromAPIS = await Promise.all(
+    countries.map((c) => covidAPI.historical(null, c)),
+  );
+
+  historyFromAPIS.forEach((dataEntry) => {
+    // store in memory for later so we do not re-request it
+    historicalCountryDataInMemory[dataEntry.country] = dataEntry;
+    // push so we return this data from the function
+    historyData.push(dataEntry);
+  });
+
+  return historyData;
 };
 
-const formatDataForGraph = (jsonData, reportType) => {
-  return jsonData.map((countryData) => ({
-    id: countryData[0].Country,
-    data: countryData
-      .filter((entry) => entry.Province === '')
-      .map((date, index) => ({
-        x: index + 1,
-        y: date[reportType],
-      })),
+const formatDataForGraph = (countryDataArray, reportType) => {
+  return countryDataArray.map((countryData) => ({
+    id: countryData.country,
+    data: Object.keys(countryData.timeline[reportType]).map((key, index) => ({
+      x: index,
+      y: countryData.timeline[reportType][key],
+    })),
   }));
 };
 
 // arg for the top fixe countries is an array of the slugs
 // [italy, united-states ...]
-const getDataForTimeSeriesGraph = (topFiveSlugs, reportType) => {
+const getDataForTimeSeriesGraph = async (reportType, countryData) => {
   return formatDataForGraph(
-    makeRequestsForTopFiveData(topFiveSlugs),
+    await makeRequestsForCountries(countryData),
     reportType,
   );
 };

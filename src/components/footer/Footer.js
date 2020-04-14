@@ -9,8 +9,11 @@ const Footer = () => (
   <Grid container spacing={3}>
     <Grid item xs={12} sm={6} className={styles.item}>
       Data from the
-      <a href="https://covid19api.com/" title="Built using the Covid19API">
-        <img src={covidLogo} alt="CovidAPI" className={styles.icon} />
+      <a
+        href="https://github.com/novelcovid/api"
+        title="Built using the novelcovid API"
+      >
+        <img src={covidLogo} alt="novelcovid API" className={styles.icon} />
       </a>
     </Grid>
     <Grid item xs={12} sm={6} className={`${styles.item} ${styles.last}`}>

@@ -2,17 +2,30 @@ import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { Typography } from '@material-ui/core';
 import TypePicker from '../type-picker/TypePicker';
+import useColors from '../../hooks/useColors';
 
 const CoronaTimeSeries = ({ data, pickType }) => {
+  const colors = useColors();
+  const colorKeys = Object.keys(colors);
+  let index = 0;
+  const getColor = () => {
+    index += 1;
+    if (!colors[colorKeys[index]]) {
+      index = 0;
+    }
+    return colors[colorKeys[index]];
+  };
+
   return data ? (
     <>
       <Typography
         variant="h5"
         style={{ display: 'flex', alignItems: 'center' }}
       >
-        Number of <TypePicker pickType={pickType} /> after day of first case
+        Number of <TypePicker pickType={pickType} /> last 30 days
       </Typography>
-      <div style={{ height: 500 }}>
+      <br />
+      <div style={{ height: 500, backgroundColor: 'white', borderRadius: 5 }}>
         <ResponsiveLine
           data={data}
           margin={{ top: 50, right: 110, bottom: 50, left: 80 }}
@@ -44,7 +57,7 @@ const CoronaTimeSeries = ({ data, pickType }) => {
             legendOffset: -70,
             legendPosition: 'middle',
           }}
-          colors={{ scheme: 'nivo' }}
+          colors={getColor}
           pointSize={5}
           pointColor={{ theme: 'background' }}
           pointBorderWidth={2}

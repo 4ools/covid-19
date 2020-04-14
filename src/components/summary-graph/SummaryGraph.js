@@ -1,36 +1,25 @@
 import React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
-import { useTheme } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
+import useColors from '../../hooks/useColors';
 
 const SummaryGraph = ({ figures }) => {
-  const theme = useTheme();
-
   const keys = figures[0] ? Object.keys(figures[0]) : [];
+  const colors = useColors();
+  const getColor = (item) => colors[item.id];
 
-  // colours for the char
-  const colors = {
-    NewConfirmed: theme.palette.primary.light,
-    TotalConfirmed: theme.palette.primary.dark,
-    NewDeaths: theme.palette.error.light,
-    TotalDeaths: theme.palette.error.dark,
-    NewRecovered: theme.palette.success.light,
-    TotalRecovered: theme.palette.success.dark,
-  };
-
-  const getColor = (bar) => colors[bar.id];
   return figures[0] ? (
     <>
       <Typography variant="h5">Highest Country Totals</Typography>
-      <div style={{ height: 500 }}>
+      <br />
+      <div style={{ height: 500, backgroundColor: 'white', borderRadius: 5 }}>
         <ResponsiveBar
           data={figures}
           keys={keys.slice(1, keys.length)}
-          indexBy="Country"
+          indexBy="country"
           margin={{ top: 50, right: 130, bottom: 50, left: 80 }}
           padding={0.3}
-          // colors={getColor}
-          colors={{ scheme: 'nivo' }}
+          colors={getColor}
           borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           axisTop={null}
           axisRight={null}
@@ -52,7 +41,7 @@ const SummaryGraph = ({ figures }) => {
           }}
           labelSkipWidth={12}
           labelSkipHeight={12}
-          labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+          labelTextColor={{ from: 'color', modifiers: [['brighter', 1.6]] }}
           legends={[
             {
               dataFrom: 'keys',

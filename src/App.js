@@ -4,6 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Typography } from '@material-ui/core';
+import { NovelCovid } from 'novelcovid';
+import countryData from './data/mockCountries.json';
+import allData from './data/mockSummary.json';
 import Summary from './components/summary/Summary';
 import SummaryGraph from './components/summary-graph/SummaryGraph';
 import CountryPicker from './components/country-picker/CountryPicker';
@@ -12,10 +15,12 @@ import Layout from './components/layout/Layout';
 import Footer from './components/footer/Footer';
 import getSummaryChartFigures from './utils/summary-graph';
 import addGlobalToCountry from './utils/add-global';
-import jsonData from './data/mockSummary.json';
 import getDataForTimeSeriesGraph from './utils/time-series-graph';
 import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 import getTopFiveCountries from './utils/get-top-five';
+import debugMode from './utils/debugMode';
+
+const covidAPI = new NovelCovid();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
+  },
+  footer: {
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.primary.main,
+    color: 'white',
   },
 }));
 
@@ -35,7 +45,6 @@ function App() {
   // which figures do we currently show
   const [figures, setFigures] = useState({});
 
-  const [topFiveCountrySlugs, setTopFiveCountrySlugs] = useState([]);
   const [topFiveData, setTopFiveData] = useState([]);
 
   // chart figures for the bar chart
@@ -51,80 +60,88 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      // const response = await fetch('https://api.covid19api.com/summary');
-      // const jsonData = await response.json();
+      let globalData;
+      let countriesData;
+
+      // @TODO get this from an env var but who cares for now
+      if (!debugMode) {
+        globalData = await covidAPI.all();
+        countriesData = await covidAPI.countries(null, 'cases');
+      } else {
+        globalData = allData;
+        countriesData = countryData;
+      }
 
       // Append Global to the list of countries as the first item of the countries array
-      const processedAPIData = addGlobalToCountry(jsonData);
-
-      const cloneForFirstLoad = JSON.parse(JSON.stringify(processedAPIData));
-
-      // else it will show the slug in the summary list
-      delete cloneForFirstLoad.Global.Slug;
+      const processedAPIData = addGlobalToCountry(globalData, countriesData);
 
       setAPIData(processedAPIData);
-      setFigures(cloneForFirstLoad.Global);
 
-      setDate(new Date(processedAPIData.Date).toDateString());
+      setFigures(processedAPIData[0]);
 
-      const topData = getTopFiveCountries(processedAPIData.Countries);
+      setDate(new Date(globalData.updated).toDateString());
+      const topData = getTopFiveCountries(countriesData);
 
       setTopFiveData(topData);
-      setTopFiveCountrySlugs(topData.map((country) => country.Slug));
 
       setSummaryChartFigures(getSummaryChartFigures(topData));
 
       setCountriesTimeSeriesFigures(
-        getDataForTimeSeriesGraph(topFiveCountrySlugs, 'Confirmed'),
+        await getDataForTimeSeriesGraph('cases', topData),
       );
     }
 
     getData();
   }, []);
 
-  function pickType(reportType) {
+  async function pickType(reportType) {
     setCountriesTimeSeriesFigures(
-      getDataForTimeSeriesGraph(topFiveCountrySlugs, reportType),
+      await getDataForTimeSeriesGraph(reportType, topFiveData),
     );
   }
 
-  function pickCountry(slug) {
-    const data = APIData.Countries.filter((c) => c.Slug === slug);
+  async function pickCountry(option) {
+    const data = APIData.filter((c) => c.country === option);
     if (!data.length) {
       return;
     }
     const {
-      Country,
-      NewConfirmed,
-      TotalConfirmed,
-      NewDeaths,
-      TotalDeaths,
-      NewRecovered,
-      TotalRecovered,
+      country,
+      cases,
+      todayCases,
+      deaths,
+      todayDeaths,
+      recovered,
+      active,
+      critical,
     } = data[0];
 
     setFigures({
-      Country,
-      NewConfirmed,
-      TotalConfirmed,
-      NewDeaths,
-      TotalDeaths,
-      NewRecovered,
-      TotalRecovered,
+      country,
+      cases,
+      todayCases,
+      deaths,
+      todayDeaths,
+      recovered,
+      active,
+      critical,
     });
 
     // reset the charts
-    if (slug === 'global') {
+    if (country === 'global') {
       setSummaryChartFigures(getSummaryChartFigures(topFiveData));
       return;
     }
 
     // check if the counties data is shown in the graphs, if not add selected
     // countries data to the graphs
-    const match = topFiveData.filter((c) => c.Slug === slug);
+    const match = topFiveData.filter((c) => c.country === country);
 
     if (!match.length) {
-      setSummaryChartFigures(getSummaryChartFigures([data[0], ...topFiveData]));
+      setSummaryChartFigures(getSummaryChartFigures([...topFiveData, data[0]]));
+      setCountriesTimeSeriesFigures(
+        await getDataForTimeSeriesGraph('cases', [...topFiveData, data[0]]),
+      );
     }
   }
 
@@ -142,7 +159,7 @@ function App() {
                   <br />
                   <CountryPicker
                     pickCountry={pickCountry}
-                    countries={APIData.Countries}
+                    countries={APIData}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -166,7 +183,7 @@ function App() {
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.footer}>
               <Footer />
             </Paper>
           </Grid>

@@ -5,13 +5,13 @@ export default function useColors() {
 
   // colours that we use in various places for the theme
   const colors = {
-    todayCases: theme.palette.primary.light,
-    cases: theme.palette.primary.dark,
-    todayDeaths: theme.palette.error.light,
-    deaths: theme.palette.error.dark,
-    critical: theme.palette.success.light,
-    recovered: theme.palette.success.dark,
-    active: theme.palette.error.light,
+    todayCases: theme.palette.secondary.dark,
+    cases: theme.palette.secondary.light,
+    todayDeaths: theme.palette.error.dark,
+    deaths: theme.palette.error.light,
+    critical: theme.palette.warning.main,
+    recovered: theme.palette.success.main,
+    active: theme.palette.action.main,
   };
   return colors;
 }

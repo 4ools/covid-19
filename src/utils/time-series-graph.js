@@ -9,7 +9,7 @@ const covidAPI = new NovelCovid();
 const historicalCountryDataInMemory = {};
 
 const makeRequestsForCountries = async (countryData) => {
-  // return [mockFrance, mockGermany, mockItaly, mockSpain, mockUSA];
+  return [mockFrance, mockGermany, mockItaly, mockSpain, mockUSA];
 
   // get the names we want to request
   let countries = countryData.map((c) => c.country);
@@ -44,7 +44,7 @@ const formatDataForGraph = (countryDataArray, reportType) => {
   return countryDataArray.map((countryData) => ({
     id: countryData.country,
     data: Object.keys(countryData.timeline[reportType]).map((key, index) => ({
-      x: index + 1,
+      x: index,
       y: countryData.timeline[reportType][key],
     })),
   }));

@@ -54,10 +54,10 @@ function App() {
 
   useEffect(() => {
     async function getData() {
-      const globalData = await covidAPI.all();
-      const countriesData = await covidAPI.countries(null, 'cases');
-      // const globalData = allData;
-      // const countriesData = countryData;
+      // const globalData = await covidAPI.all();
+      // const countriesData = await covidAPI.countries(null, 'cases');
+      const globalData = allData;
+      const countriesData = countryData;
 
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(globalData, countriesData);

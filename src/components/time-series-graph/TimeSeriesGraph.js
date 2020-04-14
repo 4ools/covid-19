@@ -10,7 +10,7 @@ const CoronaTimeSeries = ({ data, pickType }) => {
         variant="h5"
         style={{ display: 'flex', alignItems: 'center' }}
       >
-        Number of <TypePicker pickType={pickType} /> after day of first case
+        Number of <TypePicker pickType={pickType} /> last 30 days
       </Typography>
       <div style={{ height: 500 }}>
         <ResponsiveLine

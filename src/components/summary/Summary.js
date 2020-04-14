@@ -2,10 +2,24 @@
 import { jsx, css } from '@emotion/core';
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import cssStyles from '../../utils/key-colors';
+import { makeStyles } from '@material-ui/core/styles';
+import useColors from '../../hooks/useColors';
 
 const Summary = ({ figures, date }) => {
-  const colorStyles = cssStyles();
+  const colors = useColors();
+  const colorKeys = Object.keys(colors);
+
+  const colorStyles = makeStyles(() => {
+    const stylesObj = {};
+
+    colorKeys.forEach((key) => {
+      stylesObj[key] = {
+        color: colors[key],
+      };
+    });
+
+    return stylesObj;
+  })();
 
   const ulStyle = css`
     list-style-type: none;

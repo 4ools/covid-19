@@ -39,7 +39,6 @@ function App() {
   // which figures do we currently show
   const [figures, setFigures] = useState({});
 
-  const [topFiveCountrySlugs, setTopFiveCountrySlugs] = useState([]);
   const [topFiveData, setTopFiveData] = useState([]);
 
   // chart figures for the bar chart
@@ -74,12 +73,11 @@ function App() {
       const topData = getTopFiveCountries(countriesData);
 
       setTopFiveData(topData);
-      // setTopFiveCountrySlugs(topData.map((country) => country.Slug));
 
       setSummaryChartFigures(getSummaryChartFigures(topData));
 
       // setCountriesTimeSeriesFigures(
-      //   getDataForTimeSeriesGraph(topFiveCountrySlugs, 'Confirmed'),
+      //   getDataForTimeSeriesGraph('confirmed'),
       // );
     }
 
@@ -87,9 +85,9 @@ function App() {
   }, []);
 
   function pickType(reportType) {
-    setCountriesTimeSeriesFigures(
-      getDataForTimeSeriesGraph(topFiveCountrySlugs, reportType),
-    );
+    // setCountriesTimeSeriesFigures(
+    //   getDataForTimeSeriesGraph(reportType),
+    // );
   }
 
   function pickCountry(option) {
@@ -130,7 +128,7 @@ function App() {
     const match = topFiveData.filter((c) => c.country === country);
 
     if (!match.length) {
-      setSummaryChartFigures(getSummaryChartFigures([...topFiveData]));
+      setSummaryChartFigures(getSummaryChartFigures([...topFiveData, data[0]]));
     }
   }
 

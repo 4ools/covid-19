@@ -7,6 +7,7 @@ const getSummaryChartFigures = (data) => {
       deaths,
       todayDeaths,
       critical,
+      active,
       recovered,
     }) => {
       return {
@@ -16,6 +17,7 @@ const getSummaryChartFigures = (data) => {
         deaths,
         todayDeaths,
         critical,
+        active,
         recovered,
       };
     },

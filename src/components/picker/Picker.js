@@ -7,7 +7,7 @@ const Picker = ({ pick, options }) => {
     <Autocomplete
       id={`picker-${options[0]}`}
       options={options}
-      style={{ width: '170px', display: 'inline-block', margin: '0 10px' }}
+      style={{ width: '250px', display: 'inline-block', margin: '0 10px' }}
       renderInput={(params) => (
         <TextField {...params} label={options[0]} variant="outlined" />
       )}

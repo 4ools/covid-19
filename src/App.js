@@ -225,7 +225,7 @@ function App() {
             <Paper className={classes.paper}>
               <BarChart
                 titleStart="Number of "
-                titleEnd=" per Country"
+                titleEnd=" per country"
                 data={countryData}
                 pick={pickCountryType}
                 options={[

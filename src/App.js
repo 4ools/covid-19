@@ -18,7 +18,6 @@ import addGlobalToCountry from './utils/add-global';
 import getDataForTimeSeriesGraph from './utils/time-series-graph';
 import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 import getTopFiveCountries from './utils/get-top-five';
-import debugMode from './utils/debugMode';
 
 const covidAPI = new NovelCovid();
 
@@ -63,13 +62,12 @@ function App() {
       let globalData;
       let countriesData;
 
-      // @TODO get this from an env var but who cares for now
-      if (!debugMode) {
-        globalData = await covidAPI.all();
-        countriesData = await covidAPI.countries(null, 'cases');
-      } else {
+      if (process.env.REACT_APP_MOCK_API) {
         globalData = allData;
         countriesData = countryData;
+      } else {
+        globalData = await covidAPI.all();
+        countriesData = await covidAPI.countries(null, 'cases');
       }
 
       // Append Global to the list of countries as the first item of the countries array

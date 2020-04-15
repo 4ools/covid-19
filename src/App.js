@@ -18,7 +18,6 @@ import addGlobalToCountry from './utils/add-global';
 import getDataForTimeSeriesGraph from './utils/time-series-graph';
 import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 import getTopFiveCountries from './utils/get-top-five';
-import debugMode from './utils/debugMode';
 
 const covidAPI = new NovelCovid();
 
@@ -38,10 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   // response from the API request for all data
-  const [APIData, setAPIData] = useState({
-    Global: {},
-    Countries: [],
-  });
+  const [APIData, setAPIData] = useState([]);
   // which figures do we currently show
   const [figures, setFigures] = useState({});
 
@@ -54,6 +50,8 @@ function App() {
     [],
   );
 
+  const [selectedCountry, setSelectedCountry] = useState({});
+
   const [date, setDate] = useState(null);
 
   const classes = useStyles();
@@ -63,13 +61,15 @@ function App() {
       let globalData;
       let countriesData;
 
-      // @TODO get this from an env var but who cares for now
-      if (!debugMode) {
-        globalData = await covidAPI.all();
-        countriesData = await covidAPI.countries(null, 'cases');
-      } else {
+      if (
+        process.env.REACT_APP_MOCK_API &&
+        JSON.parse(process.env.REACT_APP_MOCK_API)
+      ) {
         globalData = allData;
         countriesData = countryData;
+      } else {
+        globalData = await covidAPI.all();
+        countriesData = await covidAPI.countries(null, 'cases');
       }
 
       // Append Global to the list of countries as the first item of the countries array
@@ -96,7 +96,12 @@ function App() {
 
   async function pickType(reportType) {
     setCountriesTimeSeriesFigures(
-      await getDataForTimeSeriesGraph(reportType, topFiveData),
+      await getDataForTimeSeriesGraph(
+        reportType,
+        selectedCountry.country
+          ? [...topFiveData, selectedCountry]
+          : topFiveData,
+      ),
     );
   }
 
@@ -130,6 +135,8 @@ function App() {
     // reset the charts
     if (country === 'global') {
       setSummaryChartFigures(getSummaryChartFigures(topFiveData));
+      // as user chose global, unselect country on picker
+      setSelectedCountry({});
       return;
     }
 
@@ -138,10 +145,19 @@ function App() {
     const match = topFiveData.filter((c) => c.country === country);
 
     if (!match.length) {
+      // as the user picked a country that was not in the list save it
+      setSelectedCountry(data[0]);
+
+      // update the summary chart
       setSummaryChartFigures(getSummaryChartFigures([...topFiveData, data[0]]));
+
+      // update the timeline graph
       setCountriesTimeSeriesFigures(
         await getDataForTimeSeriesGraph('cases', [...topFiveData, data[0]]),
       );
+    } else {
+      // picked one already in the list
+      setSelectedCountry({});
     }
   }
 

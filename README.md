@@ -1,5 +1,13 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/55c661de-e1ed-49d1-a15e-1b5612ccda5c/deploy-status)](https://app.netlify.com/sites/rona19/deploys)
 
+# Covid-19
+
+A dashboard for checking out the stats on the corona virus. We grab data from here: [Novel Covid API](https://github.com/novelcovid/api).
+
+When running the app locally rather than calling the API all the time make a .env file with the following
+
+`REACT_APP_MOCK_API=true`
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

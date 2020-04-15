@@ -4,13 +4,15 @@ import mockSpain from '../data/mockSpain.json';
 import mockFrance from '../data/mockFrance.json';
 import mockItaly from '../data/mockItaly.json';
 import mockUSA from '../data/mockUSA.json';
-import debugMode from './debugMode';
 
 const covidAPI = new NovelCovid();
 const historicalCountryDataInMemory = {};
 
 const makeRequestsForCountries = async (countryData) => {
-  if (debugMode) {
+  if (
+    process.env.REACT_APP_MOCK_API &&
+    JSON.parse(process.env.REACT_APP_MOCK_API)
+  ) {
     return [mockFrance, mockGermany, mockItaly, mockSpain, mockUSA];
   }
 
@@ -40,7 +42,7 @@ const makeRequestsForCountries = async (countryData) => {
     historyData.push(dataEntry);
   });
 
-  return historyData;
+  return historyData.reverse();
 };
 
 const formatDataForGraph = (countryDataArray, reportType) => {

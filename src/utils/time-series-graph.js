@@ -42,7 +42,7 @@ const makeRequestsForCountries = async (countryData) => {
     historyData.push(dataEntry);
   });
 
-  return historyData;
+  return historyData.reverse();
 };
 
 const formatDataForGraph = (countryDataArray, reportType) => {

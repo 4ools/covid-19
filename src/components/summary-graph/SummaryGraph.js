@@ -12,7 +12,14 @@ const SummaryGraph = ({ figures }) => {
     <>
       <Typography variant="h5">Highest Country Totals</Typography>
       <br />
-      <div style={{ height: 500, backgroundColor: 'white', borderRadius: 5 }}>
+      <div
+        style={{
+          height: 500,
+          backgroundColor: 'white',
+          borderRadius: 5,
+          color: 'black',
+        }}
+      >
         <ResponsiveBar
           data={figures}
           keys={keys.slice(1, keys.length)}

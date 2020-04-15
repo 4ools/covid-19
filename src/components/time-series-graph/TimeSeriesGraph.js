@@ -25,7 +25,14 @@ const CoronaTimeSeries = ({ data, pickType }) => {
         Number of <TypePicker pickType={pickType} /> last 30 days
       </Typography>
       <br />
-      <div style={{ height: 500, backgroundColor: 'white', borderRadius: 5 }}>
+      <div
+        style={{
+          height: 500,
+          backgroundColor: 'white',
+          borderRadius: 5,
+          color: 'black',
+        }}
+      >
         <ResponsiveLine
           data={data}
           margin={{ top: 50, right: 110, bottom: 50, left: 80 }}

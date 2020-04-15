@@ -1,0 +1,23 @@
+{
+  "updated": 1586985999871,
+  "country": "Spain",
+  "countryInfo": {
+    "_id": 724,
+    "iso2": "ES",
+    "iso3": "ESP",
+    "lat": 40,
+    "long": -4,
+    "flag": "https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/es.png"
+  },
+  "cases": 177644,
+  "todayCases": 3584,
+  "deaths": 18708,
+  "todayDeaths": 453,
+  "recovered": 70853,
+  "active": 88083,
+  "critical": 7371,
+  "casesPerOneMillion": 3799,
+  "deathsPerOneMillion": 400,
+  "tests": 600000,
+  "testsPerOneMillion": 12833
+}

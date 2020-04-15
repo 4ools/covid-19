@@ -37,10 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   // response from the API request for all data
-  const [APIData, setAPIData] = useState({
-    Global: {},
-    Countries: [],
-  });
+  const [APIData, setAPIData] = useState([]);
   // which figures do we currently show
   const [figures, setFigures] = useState({});
 

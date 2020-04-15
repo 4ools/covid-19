@@ -6,13 +6,12 @@ const CountryPicker = ({ pickCountry, countries }) => {
   return (
     <Autocomplete
       id="countryPicker"
-      options={countries}
-      getOptionLabel={(option) => option.country}
+      options={countries.map((entry) => entry.country)}
       style={{ width: '100%' }}
       renderInput={(params) => (
         <TextField {...params} label="Pick Country" variant="outlined" />
       )}
-      onChange={(_, values) => pickCountry(values ? values.country : 'global')}
+      onChange={(_, values) => pickCountry(values || 'global')}
     />
   );
 };

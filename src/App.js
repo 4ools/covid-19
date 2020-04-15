@@ -50,6 +50,8 @@ function App() {
     [],
   );
 
+  const [selectedCountry, setSelectedCountry] = useState({});
+
   const [date, setDate] = useState(null);
 
   const classes = useStyles();
@@ -59,7 +61,10 @@ function App() {
       let globalData;
       let countriesData;
 
-      if (process.env.REACT_APP_MOCK_API) {
+      if (
+        process.env.REACT_APP_MOCK_API &&
+        JSON.parse(process.env.REACT_APP_MOCK_API)
+      ) {
         globalData = allData;
         countriesData = countryData;
       } else {
@@ -91,7 +96,12 @@ function App() {
 
   async function pickType(reportType) {
     setCountriesTimeSeriesFigures(
-      await getDataForTimeSeriesGraph(reportType, topFiveData),
+      await getDataForTimeSeriesGraph(
+        reportType,
+        selectedCountry.country
+          ? [...topFiveData, selectedCountry]
+          : topFiveData,
+      ),
     );
   }
 
@@ -125,6 +135,8 @@ function App() {
     // reset the charts
     if (country === 'global') {
       setSummaryChartFigures(getSummaryChartFigures(topFiveData));
+      // as user chose global, unselect country on picker
+      setSelectedCountry({});
       return;
     }
 
@@ -133,10 +145,19 @@ function App() {
     const match = topFiveData.filter((c) => c.country === country);
 
     if (!match.length) {
+      // as the user picked a country that was not in the list save it
+      setSelectedCountry(data[0]);
+
+      // update the summary chart
       setSummaryChartFigures(getSummaryChartFigures([...topFiveData, data[0]]));
+
+      // update the timeline graph
       setCountriesTimeSeriesFigures(
         await getDataForTimeSeriesGraph('cases', [...topFiveData, data[0]]),
       );
+    } else {
+      // picked one already in the list
+      setSelectedCountry({});
     }
   }
 

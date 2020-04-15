@@ -9,7 +9,10 @@ const covidAPI = new NovelCovid();
 const historicalCountryDataInMemory = {};
 
 const makeRequestsForCountries = async (countryData) => {
-  if (process.env.REACT_APP_MOCK_API) {
+  if (
+    process.env.REACT_APP_MOCK_API &&
+    JSON.parse(process.env.REACT_APP_MOCK_API)
+  ) {
     return [mockFrance, mockGermany, mockItaly, mockSpain, mockUSA];
   }
 

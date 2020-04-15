@@ -1,0 +1,23 @@
+{
+  "updated": 1586985399836,
+  "country": "Germany",
+  "countryInfo": {
+    "_id": 276,
+    "iso2": "DE",
+    "iso3": "DEU",
+    "lat": 51,
+    "long": 9,
+    "flag": "https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/de.png"
+  },
+  "cases": 133456,
+  "todayCases": 1246,
+  "deaths": 3592,
+  "todayDeaths": 97,
+  "recovered": 72600,
+  "active": 57264,
+  "critical": 4288,
+  "casesPerOneMillion": 1593,
+  "deathsPerOneMillion": 43,
+  "tests": 1728357,
+  "testsPerOneMillion": 20629
+}

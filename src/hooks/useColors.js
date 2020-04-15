@@ -12,6 +12,10 @@ export default function useColors() {
     critical: theme.palette.warning.main,
     recovered: theme.palette.success.main,
     active: theme.palette.action.main,
+    casesPerOneMillion: theme.palette.primary.dark,
+    deathsPerOneMillion: theme.palette.error.light,
+    tests: theme.palette.success.light,
+    testsPerOneMillion: theme.palette.success.light,
   };
   return colors;
 }

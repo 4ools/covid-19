@@ -1,0 +1,23 @@
+{
+  "updated": 1586985399835,
+  "country": "France",
+  "countryInfo": {
+    "_id": 250,
+    "iso2": "FR",
+    "iso3": "FRA",
+    "lat": 46,
+    "long": 2,
+    "flag": "https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/fr.png"
+  },
+  "cases": 147863,
+  "todayCases": 4560,
+  "deaths": 17167,
+  "todayDeaths": 1438,
+  "recovered": 30955,
+  "active": 99741,
+  "critical": 6457,
+  "casesPerOneMillion": 2265,
+  "deathsPerOneMillion": 263,
+  "tests": 333807,
+  "testsPerOneMillion": 5114
+}

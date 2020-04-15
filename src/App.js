@@ -5,19 +5,21 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Typography } from '@material-ui/core';
 import { NovelCovid } from 'novelcovid';
-import countryData from './data/mockCountries.json';
+import mockCountryData from './data/mockCountries.json';
 import allData from './data/mockSummary.json';
 import Summary from './components/summary/Summary';
 import SummaryGraph from './components/summary-graph/SummaryGraph';
-import CountryPicker from './components/country-picker/CountryPicker';
 import NavBar from './components/nav-bar/navBar';
 import Layout from './components/layout/Layout';
 import Footer from './components/footer/Footer';
 import getSummaryChartFigures from './utils/summary-graph';
 import addGlobalToCountry from './utils/add-global';
 import getDataForTimeSeriesGraph from './utils/time-series-graph';
+import getCountryData from './utils/country-graph';
 import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 import getTopFiveCountries from './utils/get-top-five';
+import Picker from './components/picker/Picker';
+import BarChart from './components/bar-chart/BarChart';
 
 const covidAPI = new NovelCovid();
 
@@ -43,12 +45,12 @@ function App() {
 
   const [topFiveData, setTopFiveData] = useState([]);
 
-  // chart figures for the bar chart
+  // for the charts
   const [summaryChartFigures, setSummaryChartFigures] = useState({});
-
   const [countriesTimeSeriesFigures, setCountriesTimeSeriesFigures] = useState(
     [],
   );
+  const [countryData, setCountryData] = useState([]);
 
   const [selectedCountry, setSelectedCountry] = useState({});
 
@@ -66,7 +68,7 @@ function App() {
         JSON.parse(process.env.REACT_APP_MOCK_API)
       ) {
         globalData = allData;
-        countriesData = countryData;
+        countriesData = mockCountryData;
       } else {
         globalData = await covidAPI.all();
         countriesData = await covidAPI.countries(null, 'cases');
@@ -89,14 +91,27 @@ function App() {
       setCountriesTimeSeriesFigures(
         await getDataForTimeSeriesGraph('cases', topData),
       );
+
+      setCountryData(await getCountryData('casesPerOneMillion', topData));
     }
 
     getData();
   }, []);
 
-  async function pickType(reportType) {
+  async function pickTimeType(reportType) {
     setCountriesTimeSeriesFigures(
       await getDataForTimeSeriesGraph(
+        reportType,
+        selectedCountry.country
+          ? [...topFiveData, selectedCountry]
+          : topFiveData,
+      ),
+    );
+  }
+
+  async function pickCountryType(reportType) {
+    setCountryData(
+      await getCountryData(
         reportType,
         selectedCountry.country
           ? [...topFiveData, selectedCountry]
@@ -155,6 +170,11 @@ function App() {
       setCountriesTimeSeriesFigures(
         await getDataForTimeSeriesGraph('cases', [...topFiveData, data[0]]),
       );
+
+      // update the timeline per million graph
+      setCountryData(
+        await getCountryData('casesPerOneMillion', [...topFiveData, data[0]]),
+      );
     } else {
       // picked one already in the list
       setSelectedCountry({});
@@ -173,9 +193,9 @@ function App() {
                 <Grid item xs={12} sm={6}>
                   <Typography variant="h5">Select your Country</Typography>
                   <br />
-                  <CountryPicker
-                    pickCountry={pickCountry}
-                    countries={APIData}
+                  <Picker
+                    pick={pickCountry}
+                    options={APIData.map((entry) => entry.country)}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -193,8 +213,34 @@ function App() {
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <TimeSeriesGraph
+                titleStart="Number of "
+                titleEnd=" last 30 days"
                 data={countriesTimeSeriesFigures}
-                pickType={pickType}
+                pick={pickTimeType}
+                options={['cases', 'deaths', 'recovered']}
+              />
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              <BarChart
+                titleStart="Number of "
+                titleEnd=" per country"
+                data={countryData}
+                pick={pickCountryType}
+                options={[
+                  'cases',
+                  'todayCases',
+                  'deaths',
+                  'todayDeaths',
+                  'recovered',
+                  'active',
+                  'critical',
+                  'casesPerOneMillion',
+                  'deathsPerOneMillion',
+                  'tests',
+                  'testsPerOneMillion',
+                ]}
               />
             </Paper>
           </Grid>

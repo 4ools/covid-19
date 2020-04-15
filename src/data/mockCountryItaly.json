@@ -1,0 +1,23 @@
+{
+  "updated": 1586985399835,
+  "country": "Italy",
+  "countryInfo": {
+    "_id": 380,
+    "iso2": "IT",
+    "iso3": "ITA",
+    "lat": 42.8333,
+    "long": 12.8333,
+    "flag": "https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/it.png"
+  },
+  "cases": 165155,
+  "todayCases": 2667,
+  "deaths": 21645,
+  "todayDeaths": 578,
+  "recovered": 38092,
+  "active": 105418,
+  "critical": 3079,
+  "casesPerOneMillion": 2732,
+  "deathsPerOneMillion": 358,
+  "tests": 1117404,
+  "testsPerOneMillion": 18481
+}

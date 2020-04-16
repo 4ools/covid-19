@@ -41,7 +41,6 @@ const makeRequestsForCountries = async (countryData) => {
     // push so we return this data from the function
     historyData.push(dataEntry);
   });
-
   return historyData.reverse();
 };
 

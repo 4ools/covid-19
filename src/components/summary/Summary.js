@@ -4,6 +4,7 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import useColors from '../../hooks/useColors';
+import CircularProgress from '../circluar-progress/CircularProgress';
 
 const Summary = ({ figures, date }) => {
   const colors = useColors();
@@ -36,7 +37,7 @@ const Summary = ({ figures, date }) => {
   const formatStatisticTitle = (title) =>
     (title.charAt(0).toUpperCase() + title.slice(1)).replace(/([A-Z])/g, ' $1');
 
-  return (
+  return figures ? (
     <React.Fragment>
       <ul css={ulStyle}>
         {Object.keys(figures).map((key) => {
@@ -58,6 +59,18 @@ const Summary = ({ figures, date }) => {
       </ul>
       <Typography variant="caption">Last updated: {date} </Typography>
     </React.Fragment>
+  ) : (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: 418,
+      }}
+    >
+      <CircularProgress />
+    </div>
   );
 };
 

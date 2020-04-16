@@ -19,6 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "mockStart": "REACT_APP_MOCK_API=true react-scripts start",
     "build": "react-scripts build",
     "test": "eslint --fix ./ && react-scripts test",
     "eject": "react-scripts eject"

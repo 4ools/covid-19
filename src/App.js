@@ -41,7 +41,7 @@ function App() {
   // response from the API request for all data
   const [APIData, setAPIData] = useState([]);
   // which figures do we currently show
-  const [figures, setFigures] = useState({});
+  const [figures, setFigures] = useState();
 
   const [topFiveData, setTopFiveData] = useState([]);
 
@@ -167,6 +167,7 @@ function App() {
       setSummaryChartFigures(getSummaryChartFigures([...topFiveData, data[0]]));
 
       // update the timeline graph
+
       setCountriesTimeSeriesFigures(
         await getDataForTimeSeriesGraph('cases', [...topFiveData, data[0]]),
       );
@@ -184,6 +185,7 @@ function App() {
   return (
     <>
       <NavBar />
+      {/* isLoading ? <ProgressBar /> : <> </> */}
       <Layout>
         <Grid container spacing={3}>
           <Grid item xs={12} />

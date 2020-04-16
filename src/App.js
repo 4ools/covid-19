@@ -20,6 +20,7 @@ import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 import getTopFiveCountries from './utils/get-top-five';
 import Picker from './components/picker/Picker';
 import BarChart from './components/bar-chart/BarChart';
+import ProgressBar from './components/progress-bar/ProgressBar';
 
 const covidAPI = new NovelCovid();
 
@@ -56,13 +57,16 @@ function App() {
 
   const [date, setDate] = useState(null);
 
+  const [isLoading, setLoading] = useState(false);
+
   const classes = useStyles();
 
   useEffect(() => {
+    setLoading(true);
     async function getData() {
       let globalData;
       let countriesData;
-
+      setLoading(true);
       if (
         process.env.REACT_APP_MOCK_API &&
         JSON.parse(process.env.REACT_APP_MOCK_API)
@@ -73,7 +77,7 @@ function App() {
         globalData = await covidAPI.all();
         countriesData = await covidAPI.countries(null, 'cases');
       }
-
+      setLoading(false);
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(globalData, countriesData);
 
@@ -110,6 +114,7 @@ function App() {
   }
 
   async function pickCountryType(reportType) {
+    setLoading(true);
     setCountryData(
       await getCountryData(
         reportType,
@@ -118,6 +123,7 @@ function App() {
           : topFiveData,
       ),
     );
+    setLoading(false);
   }
 
   async function pickCountry(option) {
@@ -184,6 +190,7 @@ function App() {
   return (
     <>
       <NavBar />
+      {isLoading ? <ProgressBar /> : <> </>}
       <Layout>
         <Grid container spacing={3}>
           <Grid item xs={12} />

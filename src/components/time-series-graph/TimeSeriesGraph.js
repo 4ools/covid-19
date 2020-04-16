@@ -3,6 +3,7 @@ import { ResponsiveLine } from '@nivo/line';
 import { Typography } from '@material-ui/core';
 import useColors from '../../hooks/useColors';
 import Picker from '../picker/Picker';
+import ProgressBar from '../progress-bar/ProgressBar';
 
 const CoronaTimeSeries = ({ data, pick, titleStart, titleEnd, options }) => {
   const colors = useColors();
@@ -16,7 +17,7 @@ const CoronaTimeSeries = ({ data, pick, titleStart, titleEnd, options }) => {
     return colors[colorKeys[index]];
   };
 
-  return data ? (
+  return data[0] ? (
     <>
       <Typography
         variant="h5"
@@ -104,7 +105,7 @@ const CoronaTimeSeries = ({ data, pick, titleStart, titleEnd, options }) => {
       </div>
     </>
   ) : (
-    <div>Loading</div>
+    <ProgressBar />
   );
 };
 

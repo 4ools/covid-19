@@ -3,13 +3,14 @@ import { ResponsiveBar } from '@nivo/bar';
 import { Typography } from '@material-ui/core';
 import useColors from '../../hooks/useColors';
 import Picker from '../picker/Picker';
+import ProgressBar from '../progress-bar/ProgressBar';
 
 const BarChart = ({ data, titleStart, titleEnd, pick, options }) => {
   const keys = data[0] ? Object.keys(data[0]) : [];
   const colors = useColors();
   const getColor = (item) => colors[item.id];
 
-  return data ? (
+  return data[0] ? (
     <>
       <Typography
         variant="h5"
@@ -88,7 +89,9 @@ const BarChart = ({ data, titleStart, titleEnd, pick, options }) => {
       </div>
     </>
   ) : (
-    <div>Loading</div>
+    <div>
+      <ProgressBar />
+    </div>
   );
 };
 

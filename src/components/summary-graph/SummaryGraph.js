@@ -2,6 +2,7 @@ import React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { Typography } from '@material-ui/core';
 import useColors from '../../hooks/useColors';
+import ProgressBar from '../progress-bar/ProgressBar';
 
 const SummaryGraph = ({ figures }) => {
   const keys = figures[0] ? Object.keys(figures[0]) : [];
@@ -80,7 +81,7 @@ const SummaryGraph = ({ figures }) => {
       </div>
     </>
   ) : (
-    <div>Loading</div>
+    <ProgressBar />
   );
 };
 

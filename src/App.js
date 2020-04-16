@@ -20,7 +20,6 @@ import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 import getTopFiveCountries from './utils/get-top-five';
 import Picker from './components/picker/Picker';
 import BarChart from './components/bar-chart/BarChart';
-import ProgressBar from './components/progress-bar/ProgressBar';
 
 const covidAPI = new NovelCovid();
 
@@ -42,7 +41,7 @@ function App() {
   // response from the API request for all data
   const [APIData, setAPIData] = useState([]);
   // which figures do we currently show
-  const [figures, setFigures] = useState({});
+  const [figures, setFigures] = useState(null);
 
   const [topFiveData, setTopFiveData] = useState([]);
 
@@ -57,16 +56,13 @@ function App() {
 
   const [date, setDate] = useState(null);
 
-  const [isLoading, setLoading] = useState(false);
-
   const classes = useStyles();
 
   useEffect(() => {
-    setLoading(true);
     async function getData() {
       let globalData;
       let countriesData;
-      setLoading(true);
+
       if (
         process.env.REACT_APP_MOCK_API &&
         JSON.parse(process.env.REACT_APP_MOCK_API)
@@ -77,6 +73,7 @@ function App() {
         globalData = await covidAPI.all();
         countriesData = await covidAPI.countries(null, 'cases');
       }
+      await new Promise((r) => setTimeout(r, 5000));
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(globalData, countriesData);
 
@@ -96,14 +93,12 @@ function App() {
       );
 
       setCountryData(await getCountryData('casesPerOneMillion', topData));
-      setLoading(false);
     }
 
     getData();
   }, []);
 
   async function pickTimeType(reportType) {
-    setLoading(true);
     setCountriesTimeSeriesFigures(
       await getDataForTimeSeriesGraph(
         reportType,
@@ -112,11 +107,9 @@ function App() {
           : topFiveData,
       ),
     );
-    setLoading(false);
   }
 
   async function pickCountryType(reportType) {
-    setLoading(true);
     setCountryData(
       await getCountryData(
         reportType,
@@ -125,7 +118,6 @@ function App() {
           : topFiveData,
       ),
     );
-    setLoading(false);
   }
 
   async function pickCountry(option) {
@@ -175,7 +167,6 @@ function App() {
       setSummaryChartFigures(getSummaryChartFigures([...topFiveData, data[0]]));
 
       // update the timeline graph
-      setLoading(true);
 
       setCountriesTimeSeriesFigures(
         await getDataForTimeSeriesGraph('cases', [...topFiveData, data[0]]),
@@ -185,7 +176,6 @@ function App() {
       setCountryData(
         await getCountryData('casesPerOneMillion', [...topFiveData, data[0]]),
       );
-      setLoading(false);
     } else {
       // picked one already in the list
       setSelectedCountry({});
@@ -195,7 +185,7 @@ function App() {
   return (
     <>
       <NavBar />
-      {isLoading ? <ProgressBar /> : <> </>}
+      {/* isLoading ? <ProgressBar /> : <> </> */}
       <Layout>
         <Grid container spacing={3}>
           <Grid item xs={12} />

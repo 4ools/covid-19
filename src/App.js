@@ -77,7 +77,6 @@ function App() {
         globalData = await covidAPI.all();
         countriesData = await covidAPI.countries(null, 'cases');
       }
-      setLoading(false);
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(globalData, countriesData);
 
@@ -97,12 +96,14 @@ function App() {
       );
 
       setCountryData(await getCountryData('casesPerOneMillion', topData));
+      setLoading(false);
     }
 
     getData();
   }, []);
 
   async function pickTimeType(reportType) {
+    setLoading(true);
     setCountriesTimeSeriesFigures(
       await getDataForTimeSeriesGraph(
         reportType,
@@ -111,6 +112,7 @@ function App() {
           : topFiveData,
       ),
     );
+    setLoading(false);
   }
 
   async function pickCountryType(reportType) {
@@ -173,6 +175,8 @@ function App() {
       setSummaryChartFigures(getSummaryChartFigures([...topFiveData, data[0]]));
 
       // update the timeline graph
+      setLoading(true);
+
       setCountriesTimeSeriesFigures(
         await getDataForTimeSeriesGraph('cases', [...topFiveData, data[0]]),
       );
@@ -181,6 +185,7 @@ function App() {
       setCountryData(
         await getCountryData('casesPerOneMillion', [...topFiveData, data[0]]),
       );
+      setLoading(false);
     } else {
       // picked one already in the list
       setSelectedCountry({});

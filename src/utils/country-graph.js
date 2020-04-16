@@ -8,7 +8,7 @@ import mockUSA from '../data/mockCountryUSA.json';
 const covidAPI = new NovelCovid();
 const countryDataInMemory = {};
 
-const makeRequestsForCountries = async ({ countryData }) => {
+const makeRequestsForCountries = async (countryData) => {
   if (
     process.env.REACT_APP_MOCK_API &&
     JSON.parse(process.env.REACT_APP_MOCK_API)

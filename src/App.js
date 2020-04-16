@@ -20,6 +20,8 @@ import TimeSeriesGraph from './components/time-series-graph/TimeSeriesGraph';
 import getTopFiveCountries from './utils/get-top-five';
 import Picker from './components/picker/Picker';
 import BarChart from './components/bar-chart/BarChart';
+import Map from './components/map/Map';
+import getMapData from './utils/mapData';
 
 const covidAPI = new NovelCovid();
 
@@ -53,6 +55,8 @@ function App() {
   const [countryData, setCountryData] = useState([]);
 
   const [selectedCountry, setSelectedCountry] = useState({});
+
+  const [mapData, setMapData] = useState([]);
 
   const [date, setDate] = useState(null);
 
@@ -93,6 +97,8 @@ function App() {
       );
 
       setCountryData(await getCountryData('casesPerOneMillion', topData));
+
+      setMapData(getMapData(countriesData, 'cases'));
     }
 
     getData();
@@ -118,6 +124,10 @@ function App() {
           : topFiveData,
       ),
     );
+  }
+
+  function pickMapStat(reportType) {
+    setMapData(getMapData(APIData, reportType));
   }
 
   async function pickCountry(option) {
@@ -243,6 +253,29 @@ function App() {
                   'tests',
                   'testsPerOneMillion',
                 ]}
+              />
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              <Map
+                data={mapData}
+                pick={pickMapStat}
+                options={[
+                  'cases',
+                  'todayCases',
+                  'deaths',
+                  'todayDeaths',
+                  'recovered',
+                  'active',
+                  'critical',
+                  'casesPerOneMillion',
+                  'deathsPerOneMillion',
+                  'tests',
+                  'testsPerOneMillion',
+                ]}
+                titleStart="Map data showing "
+                titleEnd=""
               />
             </Paper>
           </Grid>

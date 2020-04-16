@@ -41,7 +41,7 @@ function App() {
   // response from the API request for all data
   const [APIData, setAPIData] = useState([]);
   // which figures do we currently show
-  const [figures, setFigures] = useState(null);
+  const [figures, setFigures] = useState();
 
   const [topFiveData, setTopFiveData] = useState([]);
 
@@ -73,7 +73,7 @@ function App() {
         globalData = await covidAPI.all();
         countriesData = await covidAPI.countries(null, 'cases');
       }
-      await new Promise((r) => setTimeout(r, 5000));
+
       // Append Global to the list of countries as the first item of the countries array
       const processedAPIData = addGlobalToCountry(globalData, countriesData);
 

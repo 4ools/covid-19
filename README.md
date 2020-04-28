@@ -2,6 +2,9 @@
 
 # Covid-19
 
+## [Live Site](https://rona19.netlify.app)
+
+
 A dashboard for checking out the stats on the corona virus. We grab data from here: [Novel Covid API](https://github.com/novelcovid/api).
 
 When running the app locally rather than calling the API all the time make a .env file with the following
